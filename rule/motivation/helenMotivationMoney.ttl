@@ -1,0 +1,26 @@
+## roylottMotivationMoney.ttl
+## 小説ルール
+## rule.1022x ヘレンは遺産を動機として殺人を犯す可能性がある
+
+PREFIX rule: <tag:stardog:api:rule:> 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+[] a rule:SPARQLRule ;
+rule:content """
+IF {
+    ## ロイロットの動機
+    ## ヘレンはロイロットとジュリアを家族にもつ
+    ?s kgc:haveMotivation kd:greedy_for_money ;
+       kgc:family kd:Julia.    
+       kgc:family ?o .
+
+    } THEN {         
+	?o kgc:have kd:motivation ;
+	   kgc:haveMotivation kd:greedy_for_money .
+        }
+""". 
