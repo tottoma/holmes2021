@@ -1,0 +1,25 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:what ?a;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/train>;
+        kgc:subject ?x.
+
+    ?x kgc:have kd:animals_in_India.
+
+
+    kd:India kgc:have ?a.
+
+    } THEN {
+    ?x kgc:have ?a.
+    ?a kgc:isFrom kd:India.
+    } 
+""". 

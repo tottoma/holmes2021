@@ -1,0 +1,28 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+[] a rule:SPARQLRule ; 
+rule:content """ 
+IF {
+    ?c kgc:die kd:no_scar.
+    ?c kgc:die kd:no_poisonous.
+    kd:378 kgc:subject kd:coroner;
+           kgc:what kd:poison_of_snake;
+           kgc:hasProperty kd:notFind.
+    kd:72 kgc:subject ?c;
+          kgc:hasProperty kd:turnPale;
+          kgc:then ?id2.
+    ?id2 kgc:subject ?c;
+         kgc:hasProperty kd:dizzy.
+    kd:76 kgc:subject ?c;
+          kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
+          kgc:what kd:limbs.
+    kd:86 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>.
+   } THEN {
+    ?c kgc:die kd:poisonous.
+   } 
+""". 
