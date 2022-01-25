@@ -1,0 +1,25 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+[] a rule:SPARQLRule ; 
+rule:content """ 
+IF { 
+    # 蛇はbandとspeckledの特徴を持つ
+    # 蛇は?aと?bの特徴を持つ
+    kd:snake kgc:hasProperty ?a;
+        kgc:hasProperty ?b.
+    # ダイイングメッセージはspeckled_bandで，speckled_bandはbandとspeckledの特徴を持つ
+    # ダイイングメッセージは?xで，?xは?aと?bの特徴を持つ
+    kd:dying_message kgc:is ?x.
+    ?x kgc:hasProperty ?a;
+        kgc:hasProperty ?b.
+    } THEN { 
+    # まだらの紐は蛇である可能性がある
+    # ダイイングメッセージ?xは蛇である可能性がある
+    ?x kgc:canBe kd:snake.
+        } 
+""". 
