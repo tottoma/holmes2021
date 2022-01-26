@@ -1,0 +1,89 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+kd:India kgc:have kd:snake.
+kd:snake kgc:hasProperty kd:poisonous.
+
+PREFIX rule: <tag:stardog:api:rule:> 
+
+[] a rule:SPARQLRule ;
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?c kgc:die kd:no_scar ;
+       kgc:die kd:no_poisonous.
+    kd:378 kgc:subject kd:coroner;
+           kgc:what kd:poison_of_snake;
+           kgc:hasProperty kd:notFind.
+    kd:72 kgc:subject ?d;
+          kgc:hasProperty kd:turnPale;
+          kgc:then ?id2.
+    ?id2 kgc:hasProperty kd:dizzy.
+    kd:76 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
+          kgc:what kd:limbs.
+    kd:86 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>.
+    filter(?c = ?d)
+   } THEN {
+    ?c kgc:die kd:poisonous.
+   } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+IF { 
+    # ?aはインドの動物が好き
+    kd:27 kgc:subject ?a;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/like>;
+        kgc:what kd:animal_of_India.
+    # ?bはインドの動物を買う
+    kd:28 kgc:subject ?b;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/buy>;
+        kgc:what kd:animal_of_India.
+    filter(?a=?b).
+    } THEN { 
+    # ?aはインドの動物を飼っている
+	?a kgc:have kd:animals_in_India.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+IF {
+    ?x kgc:isnot kd:rightuse.
+    ?y kgc:hasProperty kd:band.
+    kd:384 kgc:subject kd:Roylott;
+           kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/put>;
+           kgc:to kd:ventilator;
+           kgc:what ?y;
+           kgc:then ?id2.
+    ?id2 kgc:subject ?z;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/goDown>;
+         kgc:how kd:rope_of_bell;
+         kgc:to kd:bed.
+    filter(?y = ?z)   
+   } THEN {
+    ?y kgc:canEnter kd:bedroom_of_Julia.
+   } 
+""".

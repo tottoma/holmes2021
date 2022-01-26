@@ -1,0 +1,20 @@
+PREFIX rule: <tag:stardog:api:rule:>
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+   ?x1 kgc:isnot kd:rightuse.
+   ?x2 kgc:isnot kd:rightuse.
+   kd:225 kgc:subject kd:ventilator;
+          kgc:when kd:at_the_same_time_as_rope_of_bell_put.
+   filter(?x1!=?x2)
+   } THEN { 
+    ?x1 kgc:sameOppose ?x2.
+   } 
+""". 

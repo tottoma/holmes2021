@@ -1,0 +1,19 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+  ?s rdf:type kgc:Person ;
+     kgc:have ?x .
+  OPTIONAL{ ?x kgc:canKill ?z } .
+  FILTER(bound(?z))
+   } THEN { 
+   ?s kgc:canKill ?z.
+   } 
+""". 
