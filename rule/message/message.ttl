@@ -1,0 +1,86 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# ダイイングメッセージはspeckled_band
+[] a rule:SPARQLRule ; 
+rule:content """ 
+IF { 
+    # 事件当夜，ジュリアは "speckled_band" と言った
+    ?id kgc:subject kd:Julia;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/say>;
+        kgc:what kd:speckled_band;
+        kgc:when kd:death_day_of_Julia.
+    } THEN { 
+    # ダイングメッセージはspeckled_band
+    kd:dying_message kgc:is kd:speckled_band.
+    # speckled_bandはspeckled
+    kd:speckled_band kgc:hasProperty kd:speckled.
+    # speckled_bandはband
+    kd:speckled_band kgc:hasProperty kd:band.
+        } 
+""". 
+
+# ロマはダイイングメッセージに関係している
+[] a rule:SPARQLRule ; 
+rule:content """ 
+IF { 
+    # ?xは(?bの特徴を持つ)?aを持っている
+    ?id kgc:subject ?x;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/have>;
+        kgc:what ?a.
+    ?id2 kgc:subject ?a;
+        kgc:hasProperty ?b.
+    # ダイイングメッセージは?cで，?cは?bの特徴を持つ
+    kd:dying_message kgc:is ?c.
+    ?c kgc:hasProperty ?b.
+    } THEN { 
+    # ?xはダイイングメッセージに関係している
+    ?x kgc:isRelatedTo kd:dying_message.
+        } 
+""". 
+
+# まだらの紐は蛇である可能性がある
+[] a rule:SPARQLRule ; 
+rule:content """ 
+IF { 
+    # 蛇はbandとspeckledの特徴を持つ
+    # 蛇は?aと?bの特徴を持つ
+    kd:snake kgc:hasProperty ?a;
+        kgc:hasProperty ?b.
+    # ダイイングメッセージはspeckled_bandで，speckled_bandはbandとspeckledの特徴を持つ
+    # ダイイングメッセージは?xで，?xは?aと?bの特徴を持つ
+    kd:dying_message kgc:is ?x.
+    ?x kgc:hasProperty ?a;
+        kgc:hasProperty ?b.
+    } THEN { 
+    # まだらの紐は蛇である可能性がある
+    # ダイイングメッセージ?xは蛇である可能性がある
+    ?x kgc:canBe kd:snake.
+        } 
+""". 
+
+# ロイロットはダイイングメッセージに関係している
+[] a rule:SPARQLRule ; 
+rule:content """ 
+IF { 
+    # ロイロットは蛇を飼っている
+    # ?xは?aを飼っている
+    ?x kgc:have ?a.
+    ?x rdf:type kgc:Person.
+    # ダイイングメッセージはまだらの紐である
+    # ダイイングメッセージは?bである
+    kd:dying_message kgc:is ?b.
+    # まだらの紐は蛇である可能性がある
+    # ?bは?aである可能性がある
+    ?b kgc:canBe ?a.
+    } THEN { 
+    # ロイロットはダイイングメッセージに関係している
+    # ?xはダイイングメッセージに関係している
+    ?x kgc:isRelatedTo kd:dying_message.
+        } 
+""". 

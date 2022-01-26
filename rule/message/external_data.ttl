@@ -8,3 +8,6 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 # 蛇の形状は紐状
 kd:snake kgc:hasProperty kd:band.
+
+# 蛇の模様はまだら
+kd:snake kgc:hasProperty kd:speckled.
