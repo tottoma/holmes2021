@@ -1,0 +1,44 @@
+## animal.ttl
+## 常識 ホームズが持っていると想定するインドの動物知識オントロジ
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+## インド
+kd:India kgc:have kd:animal_of_India ;
+         kgc:have kd:snake .##########消す
+
+## インドの動物
+kd:animal_of_India a rdfs:Class ;
+  rdfs:subClassOf kgc:Animal ;
+  kgc:isFrom kd:India .
+
+# 蛇
+kd:snake a kd:animal_of_India ;
+  kgc:hasProperty kd:band;
+# 蛇の模様はまだら
+  kgc:hasProperty kd:speckled; #まだら
+  kgc:hasProperty kd:striped ; ## 縞
+  kgc:hasProperty kd:chainlike ; ## 鎖
+## 毒
+  kgc:hasProperty kd:poisonous ;
+## 大きさ
+  kgc:hasProperty kd:band .
+  
+## 毒蛇
+kd:poison_snake a kd:snake;
+  kgc:hasProperty kd:poison .
+
+kd:poisonous_snake a kd:snake ;
+  kgc:hasProperty kd:poisonous .
+
+# サル
+kd:baboon a kd:animal_of_India .
+
+# ゾウ
+kd:elephant a kgc:animal_of_India .
+
+# 動物一覧...

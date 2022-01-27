@@ -3,8 +3,8 @@
 PREFIX rule: <tag:stardog:api:rule:> 
 
 # インドには危険な毒蛇がいる（常識ルール）
-kd:India kgc:have kd:snake.
-kd:snake kgc:hasProperty kd:poisonous.
+#kd:India kgc:have kd:snake.
+#kd:snake kgc:hasProperty kd:poisonous.
 
 # ロイロットはインドの動物を飼っている
 [] a rule:SPARQLRule ; 

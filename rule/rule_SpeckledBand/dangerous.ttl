@@ -1,14 +1,25 @@
+<<<<<<< HEAD:rule/dangerous/dangerous.ttl
 PREFIX rule: <tag:stardog:api:rule:> 
 
 # ロイロットはヘレンをいじめる
 [] a rule:SPARQLRule ; 
 rule:content """
+=======
+PREFIX rule: <tag:stardog:api:rule:> 
+>>>>>>> 9508af070278da9596200ca772503efae393de24:rule/rule_SpeckledBand/dangerous.ttl
 PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
 PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+<<<<<<< HEAD:rule/dangerous/dangerous.ttl
+=======
+
+# ロイロットはヘレンをいじめる
+[] a rule:SPARQLRule ; 
+rule:content """ 
+>>>>>>> 9508af070278da9596200ca772503efae393de24:rule/rule_SpeckledBand/dangerous.ttl
 IF { 
     ?id kgc:subject ?c;
         kgc:what kd:bruise_of_fingers_of_Roylott;
@@ -18,7 +29,7 @@ IF {
     } THEN {         
 	?x kgc:bully ?c.
         } 
-""". 
+""".
 
 # ロイロットは危険人物である
 [] a rule:SPARQLRule ; 
