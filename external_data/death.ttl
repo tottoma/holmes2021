@@ -1,7 +1,6 @@
-@prefix kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#> .
-@prefix kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> .
-
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 #死因
 kgc:causeOfDeath a rdfs:Class.
@@ -15,7 +14,7 @@ kgc:weapon a rdfs:Class.
 #外傷
 kgc:scar a rdfs:Class.
 
------------------------------
+# -----------------------------
 #毒殺
 kd:poisoning a kgc:causeOfDeath;
   kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
