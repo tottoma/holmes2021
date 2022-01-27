@@ -12,20 +12,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF {
-    {
     ?s kgc:subject ?o ;
        kgc:when kd:if_Helen_and_Julia_married ;
        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose> ;
-       kgc:what kd:money .
-    ## rule.2000 lose money sad
-    ?s2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose>;
-        kgc:what kd:money ;
-        kgc:hasProperty kd:sad .
-    ## rule.2008 greedy for money motivation
-    ?s3 kgc:why ?s2 . 
+       kgc:what ?m .
     } THEN {         
 	?o kgc:have kd:motivation ;
-	   kgc:haveMotivation ?s3.
+	   kgc:haveMotivation ?m.
         }
 """. 
 
@@ -46,7 +39,7 @@ IF {
    kd:friend_of_Roylott kgc:partOf kd:friend ;
        kgc:wholeOf kd:Roylott . 
    ##
-   kd:Roylott kgc:haveMotivation kd:greedy_for_money .
+   kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
       ?o kgc:have kd:motivation ;
@@ -68,11 +61,11 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF {
     ## ロイロットの動機
     ## ヘレンはロイロットとジュリアを家族にもつ
-    kd:Roylott kgc:haveMotivation kd:greedy_for_money ;   
+    kd:Roylott kgc:haveMotivation kd:money ;   
                kgc:family ?o .
     filter(?o != kd:Julia)
     } THEN {         
 	?o kgc:have kd:motivation ;
-	   kgc:haveMotivation kd:greedy_for_money .
+	   kgc:haveMotivation kd:money .
         }
 """. 
