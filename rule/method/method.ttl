@@ -3,6 +3,7 @@ PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
 PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
 ## method
 
+## 常識ルール後で消す
 kd:India kgc:have kd:snake.
 kd:snake kgc:hasProperty kd:poisonous.
 # 蛇の形状は紐状
