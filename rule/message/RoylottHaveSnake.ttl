@@ -1,12 +1,6 @@
 # テスト用なので後で消しても良いです (methodに同じルールあり)
 
 PREFIX rule: <tag:stardog:api:rule:> 
-PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
-PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl/#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 # インドには危険な毒蛇がいる（常識ルール）
 kd:India kgc:have kd:snake.
@@ -15,6 +9,12 @@ kd:snake kgc:hasProperty kd:poisonous.
 # ロイロットはインドの動物を飼っている
 [] a rule:SPARQLRule ; 
 rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # ?aはインドの動物が好き
     kd:27 kgc:subject ?a;
@@ -34,6 +34,12 @@ IF {
 # ロイロットはインドの毒蛇を飼っている
 [] a rule:SPARQLRule ;
 rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # ?xは?aを訓練している
     ?id kgc:what ?a;

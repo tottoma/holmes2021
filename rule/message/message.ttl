@@ -1,14 +1,14 @@
 PREFIX rule: <tag:stardog:api:rule:> 
+
+# ダイイングメッセージはspeckled_band
+[] a rule:SPARQLRule ; 
+rule:content """ 
 PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
 PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-
-# ダイイングメッセージはspeckled_band
-[] a rule:SPARQLRule ; 
-rule:content """ 
 IF { 
     # 事件当夜，ジュリアは "speckled_band" と言った
     ?id kgc:subject kd:Julia;
@@ -28,6 +28,12 @@ IF {
 # ロマはダイイングメッセージに関係している
 [] a rule:SPARQLRule ; 
 rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # ?xは(?bの特徴を持つ)?aを持っている
     ?id kgc:subject ?x;
@@ -47,6 +53,12 @@ IF {
 # まだらの紐は蛇である可能性がある
 [] a rule:SPARQLRule ; 
 rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 蛇はbandとspeckledの特徴を持つ
     # 蛇は?aと?bの特徴を持つ

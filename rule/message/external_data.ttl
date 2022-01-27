@@ -1,3 +1,5 @@
+# これもテスト用の常識ルールなので後で消してOKです
+
 PREFIX rule: <tag:stardog:api:rule:> 
 PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
 PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
