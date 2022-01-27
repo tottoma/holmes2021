@@ -1,0 +1,41 @@
+PREFIX rule: <tag:stardog:api:rule:>
+
+# モーティマーは危険人物である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?c;
+        kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/cunning>;
+        kgc:infoSource kd:statement_of_Holmes.
+    ?id2 kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/greedy>;
+         kgc:infoSource kd:statement_of_Holmes.
+    ?id3 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGenerous>;
+         kgc:infoSource kd:statement_of_Holmes.
+    } THEN {
+    ?c kgc:hasProperty kd:dangerous.
+    } 
+""".
+
+# ラウンドヘイは危険人物でない
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject ?c;
+        kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/sociable>.
+    ?id2 kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/friendly>.
+    } THEN {
+    ?c kgc:hasProperty kd:notDangerous.
+    } 
+""".
