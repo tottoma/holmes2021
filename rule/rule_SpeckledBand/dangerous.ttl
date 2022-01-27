@@ -18,7 +18,7 @@ IF {
     } THEN {         
 	?x kgc:bully ?c.
         } 
-""". 
+""".
 
 # ロイロットは危険人物である
 [] a rule:SPARQLRule ; 
