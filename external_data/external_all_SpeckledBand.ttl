@@ -1,0 +1,193 @@
+## animal.ttl
+## 常識 ホームズが持っていると想定するインドの動物知識オントロジ
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rule: <tag:stardog:api:rule:> 
+
+## インド
+kd:India kgc:have kd:animal_of_India ;
+         kgc:have kd:snake .##########消す
+
+## インドの動物
+kd:animal_of_India a rdfs:Class ;
+  rdfs:subClassOf kgc:Animal ;
+  kgc:isFrom kd:India .
+
+# 蛇
+kd:snake a kd:animal_of_India ;
+  kgc:hasProperty kd:band;
+# 蛇の模様はまだら
+  kgc:hasProperty kd:speckled; #まだら
+  kgc:hasProperty kd:striped ; ## 縞
+  kgc:hasProperty kd:chainlike ; ## 鎖
+## 毒
+  kgc:hasProperty kd:poisonous ;
+## 大きさ
+  kgc:hasProperty kd:band .
+  
+## 毒蛇
+kd:poison_snake a kd:snake;
+  kgc:hasProperty kd:poison .
+
+kd:poisonous_snake a kd:snake ;
+  kgc:hasProperty kd:poisonous .
+
+# サル
+kd:baboon a kd:animal_of_India .
+
+# ゾウ
+kd:elephant a kgc:animal_of_India .
+
+# 動物一覧...
+
+# -----------------------------
+#死因
+kgc:causeOfDeath a rdfs:Class.
+
+#症状
+kgc:symptoms a rdfs:Class.
+
+#凶器
+kgc:weapon a rdfs:Class.
+
+#外傷
+kgc:scar a rdfs:Class.
+# -----------------------------
+#毒殺
+kd:poisoning a kgc:causeOfDeath;
+  kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
+  kgc:stmptoms kd:turnPale;
+  kgc:stmptoms kd:dizzy;
+  kgc:weapon kd:snake;
+  kgc:weapon kd:drug;
+  kgc:scar kd:noScar.
+
+#刺殺
+kd:stabbing a kgc:causeOfDeath;
+  kgc:stmptoms kd:bleeding;
+  kgc:stmptoms kd:stabWound;
+  kgc:weapon kd:knife;
+  kgc:scar kd:scar.
+
+#絞殺
+kd:strangulation a kgc:causeOfDeath;
+  kgc:stmptoms kd:ligatureMark;
+  kgc:weapon kd:rope;
+  kgc:weapon kd:outlet;
+  kgc:weapon kd:belt;
+  kgc:weapon kd:tie;
+  kgc:scar kd:scar.
+
+#撲殺
+kd:wrestling a kgc:causeOfDeath;
+  kgc:stmptoms kd:bleeding;
+  kgc:stmptoms kd:bruise;
+  kgc:weapon kd:bluntInstrument;
+  kgc:scar kd:scar.
+
+#溺殺
+kd:drowning a kgc:causeOfDeath;
+  kgc:stmptoms kd:bubble;
+  kgc:weapon kd:stunGun;
+  kgc:scar kd:noScar.
+# -----------------------------
+
+#家族ラベル
+kgc:family a rdf:Property .
+
+#親ラベル
+kgc:parent a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#子ラベル
+kgc:child a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#配偶者ラベル
+kgc:spouse a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#-----------------------------
+#直接つながっていない家族関係
+
+#兄弟姉妹ラベル
+kgc:sibling a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#その他、おじおば、祖父母、孫など
+#-----------------------------
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+  {
+    ?s kgc:parent ?o.
+  }union{
+    ?o kgc:child ?s.
+  }
+} THEN {
+  ?o kgc:child ?s.
+  ?s kgc:parent ?o.
+}
+""".
+
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+?s kgc:spouse ?o.
+} THEN {
+?o kgc:spouse ?s.
+}
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+?s kgc:parent ?o.
+?s2 kgc:parent ?o. 
+filter(?s != ?s2)
+} THEN {
+?s kgc:sibling ?s2.
+?s2 kgc:sibling ?s.
+}
+""".
+
+################################### Speckled Band
+kd:Helen kgc:parent kd:Roylott .
+kd:Julia kgc:parent kd:Roylott .
+################################### 
+
+## motive.ttl
+## 常識ルール2000: お金を失うと悲しい
+#kd:lose_money a rdfs:Class;
+#  kgc:hasProperty kd:sad;
+#  kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose> ;
+#  kgc:what kd:money .
+
+## 常識ルール2008: お金は動機になりえる
+kgc:motivation a rdfs:Class .
+kd:money a kgc:motivation .
+
+## 常識ルール: 復讐は動機になりえる
