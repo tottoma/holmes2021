@@ -17,8 +17,7 @@ IF {
        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose> ;
        kgc:what ?m .
     } THEN {         
-	?o kgc:have kd:motivation ;
-	   kgc:haveMotivation ?m.
+	?o kgc:haveMotivation ?m.
         }
 """. 
 
@@ -42,8 +41,7 @@ IF {
    kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
-      ?o kgc:have kd:motivation ;
-      	 kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
+      ?o kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
         ## kgc:cooperateWith kd:Roylott .
         }
 """. 
@@ -65,7 +63,6 @@ IF {
                kgc:family ?o .
     filter(?o != kd:Julia)
     } THEN {         
-	?o kgc:have kd:motivation ;
-	   kgc:haveMotivation kd:money .
+	?o kgc:haveMotivation kd:money .
         }
 """. 
