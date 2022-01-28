@@ -37,6 +37,6 @@ IF {
           kgc:subject kd:Roylott;
           kgc:when kd:occasionally.
     } THEN {         
-	?x kgc:is kd:dangerous.
+	?x kgc:hasProperty kd:dangerous.
         } 
 """. 
