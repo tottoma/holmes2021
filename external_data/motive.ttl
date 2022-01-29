@@ -18,3 +18,10 @@ kgc:motivation a rdfs:Class .
 kd:money a kgc:motivation .
 
 ## 常識ルール: 復讐は動機になりえる
+kd:revenge a kgc:motivation.
+
+## 常識ルール: 後悔は動機になりえる
+kd:regret a kgc:motivation.
+
+## 常識ルール: 自衛は動機になりえる
+kd:self_defense a kgc:motivation.
