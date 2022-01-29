@@ -1,0 +1,156 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+
+# --- オーウェンとジョージの症状 ---
+
+# オーウェンとジョージとブレンダは動けなかった
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # オーウェンとジョージとブレンダは姿勢を変えなかった
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notChange>;
+        kgc:what kd:posture;
+        kgc:subject ?x.
+    # オーウェンとジョージとブレンダは椅子を引かなかった
+    ?id2 kgc:hasPredicate   <http://kgc.knowledge-graph.jp/data/predicate/notDraw>;
+        kgc:what kd:Chair;
+        kgc:subject ?x.
+    } THEN { 
+    ?x kgc:cannot kd:Move.
+    } 
+""". 
+
+# オーウェンとジョージとブレンダは同じ部屋にいた
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # オーウェンとジョージとブレンダはトリジェニス家にいた
+    ?x kgc:hasProperty kd:wasAtTheScene1.
+    # オーウェンとジョージとブレンダは動けなかった
+    ?y kgc:cannot kd:Move.
+    filter(?x != ?y)
+    } THEN { 
+    ?x kgc:inTheSameRoom ?y.
+    } 
+""". 
+
+# オーウェンとジョージは薬物を摂取した
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # オーウェンとジョージは恐怖のために狂っていた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/crazy>;
+        kgc:subject ?x.
+    # 狂気は薬物の初期症状である
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
+        kgc:what kd:Early_symptom_of_the_drug;
+        kgc:subject kd:Madness.
+    } THEN { 
+    ?x kgc:take kd:Drug.
+    } 
+""". 
+
+# オーウェンとジョージはブレンダを殺す手段がない
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # オーウェンとジョージは動けなかった
+    ?x kgc:cannot kd:Move.
+    # オーウェンとジョージは薬物を摂取した
+    ?x kgc:take kd:Drug.
+    } THEN { 
+    ?x kgc:cannotMurder kd:Brenda.
+    } 
+""". 
+
+
+# --- 部屋と毒物 ---
+
+# ドクター・リチャードは中毒を起こした
+
+# 暖炉で薬物（魔足根）が燃やされた
+
+# 朝まで毒物が部屋に充満していた
+
+
+
+# --- ブレンダの死因 ---
+
+# ブレンダは薬物を使われた可能性
+
+
+# ブレンダは外傷のない死因である
+
+
+# ブレンダの死因は中毒死である可能性
+
+
+# --- 魔足根についての情報 ---
+
+
+# 魔足根は薬物である
+
+# 魔足根は人を殺せる
+
+
+# 紙包みは魔足根である
+
+# スタンデールは魔足根の情報を知っている
+
+# スタンデールは魔足根を持っている
+
+# モーティマーは魔足根のありかを知っている
+# モーティマーは魔足根を手に入れることができる
+
+
+# モーティマーは魔足根の情報を知っている
+
+# モーティマーは魔足根に興味がある
+
+# モーティマーは魔足根を使うことができる（使い方を知っている）
+
+# モーティマーは魔足根を持っている（これいる？）
+
+
+# モーティマーはブレンダを殺すことができる
+
+
+
+# ランプで薬物（魔足根）が燃やされた
+
+# 窓はずっと閉められていた
+
+# 毒物が部屋に充満していた
+
+
+# モーティマーは中毒死の可能性がある
+
+
+# スタンデールはモーティマーを殺すことができる
+
+
+
+
