@@ -30,14 +30,14 @@ kd:poisoning a kgc:causeOfDeath;
 
 #刺殺
 kd:stabbing a kgc:causeOfDeath;
-  kgc:stmptoms kd:bleeding;
-  kgc:stmptoms kd:stabWound;
+  kgc:symptoms kd:bleeding;
+  kgc:symptoms kd:stabWound;
   kgc:weapon kd:knife;
   kgc:scar kd:scar.
 
 #絞殺
 kd:strangulation a kgc:causeOfDeath;
-  kgc:stmptoms kd:ligatureMark;
+  kgc:symptoms kd:ligatureMark;
   kgc:weapon kd:rope;
   kgc:weapon kd:outlet;
   kgc:weapon kd:belt;
@@ -46,13 +46,13 @@ kd:strangulation a kgc:causeOfDeath;
 
 #撲殺
 kd:wrestling a kgc:causeOfDeath;
-  kgc:stmptoms kd:bleeding;
-  kgc:stmptoms kd:bruise;
+  kgc:symptoms kd:bleeding;
+  kgc:symptoms kd:bruise;
   kgc:weapon kd:bluntInstrument;
   kgc:scar kd:scar.
 
 #溺殺
 kd:drowning a kgc:causeOfDeath;
-  kgc:stmptoms kd:bubble;
+  kgc:symptoms kd:bubble;
   kgc:weapon kd:stunGun;
   kgc:scar kd:noScar.
