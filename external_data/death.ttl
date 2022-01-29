@@ -17,9 +17,12 @@ kgc:scar a rdfs:Class.
 # -----------------------------
 #毒殺
 kd:poisoning a kgc:causeOfDeath;
-  kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
-  kgc:stmptoms kd:turnPale;
-  kgc:stmptoms kd:dizzy;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
+  kgc:symptoms kd:turnPale;
+  kgc:symptoms kd:dizzy;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/crazy>;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/beDamaged>;
+  kgc:symptoms kd:Madness:
   kgc:weapon kd:snake;
   kgc:weapon kd:drug;
   kgc:scar kd:noScar.
