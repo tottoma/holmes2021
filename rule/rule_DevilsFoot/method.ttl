@@ -61,7 +61,10 @@ IF {
     # 狂気は薬物の初期症状である
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
         kgc:what kd:Early_symptom_of_the_drug;
-        kgc:subject kd:Madness.
+        kgc:subject ?a.
+    # 狂気は中毒死の症状である
+    ?d kgc:stmptoms ?a;
+        kgc:weapon kd:Drug.
     } THEN { 
     ?x kgc:take kd:Drug.
     } 
@@ -90,11 +93,73 @@ IF {
 # --- 部屋と毒物 ---
 
 # ドクター・リチャードは中毒を起こした
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ドクター・リチャードの顔は真っ青だった
+    ?id kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/blue>;
+        kgc:subject kd:face_of_Doctor_Richard.
+    # ドクター・リチャードは失神しかけた
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
+        kgc:subject ?x.
+    # 失神は中毒死の症状である
+    ?d kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>.
+    } THEN { 
+    ?x kgc:get ?d.
+    } 
+""". 
 
-# 暖炉で薬物（魔足根）が燃やされた
+# 暖炉で薬物が燃やされた
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 黒焦げの灰が暖炉の中に残っていた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/exist>;
+        kgc:where ?a;
+        kgc:subject kd:Charred_ash.
+    # 薬物は燃焼時に作用する
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/act>;
+        kgc:when kd:combustion;
+        kgc:subject ?b.
+    } THEN { 
+    ?b kgc:burn ?a.
+    } 
+""". 
 
-# 朝まで毒物が部屋に充満していた
-
+# 毒物が部屋に充満していた
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 今朝、窓は閉まっていた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beClosed>;
+        kgc:when kd:this_morning;
+        kgc:subject kd:window.
+    # ドクター・リチャードは中毒を起こした
+    kd:Doctor_Richard kgc:get kd:poisoning.
+    # 暖炉で薬物が燃やされた
+    kd:Drug kgc:burn kd:Inside_of_fireplace.
+    } THEN { 
+    kd:poison kgc:full kd:In_the_room.
+    } 
+""". 
 
 
 # --- ブレンダの死因 ---
