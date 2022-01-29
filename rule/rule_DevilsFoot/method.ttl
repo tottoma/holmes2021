@@ -92,7 +92,7 @@ IF {
 
 # --- 部屋と毒物 ---
 
-# ドクター・リチャードは中毒を起こした
+# ドクター・リチャードは薬物を摂取した
 [] a rule:SPARQLRule ; 
 rule:content """ 
 PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
@@ -109,7 +109,8 @@ IF {
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
         kgc:subject ?x.
     # 失神は中毒死の症状である
-    ?d kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>.
+    ?d kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
+        kgc:weapon kd:Drug.
     } THEN { 
     ?x kgc:take kd:Drug.
     } 
@@ -133,6 +134,8 @@ IF {
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/act>;
         kgc:when kd:combustion;
         kgc:subject ?b.
+    # ドクター・リチャードは薬物を摂取した
+    kd:Doctor_Richard kgc:take ?b.
     } THEN { 
     ?b kgc:burn ?a.
     } 
@@ -152,8 +155,6 @@ IF {
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beClosed>;
         kgc:when kd:this_morning;
         kgc:subject kd:window.
-    # ドクター・リチャードは中毒を起こした
-    kd:Doctor_Richard kgc:get kd:poisoning.
     # 暖炉で薬物が燃やされた
     kd:Drug kgc:burn kd:Inside_of_fireplace.
     } THEN { 
