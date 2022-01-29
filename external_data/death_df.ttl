@@ -23,7 +23,7 @@ kd:poisoning a kgc:causeOfDeath;
   kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/crazy>;
   kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/beDamaged>;
   kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
-  kgc:symptoms kd:Madness:
+  kgc:symptoms kd:Madness;
   kgc:weapon kd:snake;
   kgc:weapon kd:Drug;
   kgc:scar kd:noScar.
