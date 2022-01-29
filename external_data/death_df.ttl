@@ -17,27 +17,27 @@ kgc:scar a rdfs:Class.
 # -----------------------------
 #毒殺
 kd:poisoning a kgc:causeOfDeath;
-  kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
-  kgc:stmptoms kd:turnPale;
-  kgc:stmptoms kd:dizzy;
-	kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/crazy>;
-	kgc:stmptoms kd:Madness;
-	kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/beDamaged>;
-	kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
+  kgc:symptoms kd:turnPale;
+  kgc:symptoms kd:dizzy;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/crazy>;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/beDamaged>;
+  kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
+  kgc:symptoms kd:Madness:
   kgc:weapon kd:snake;
-	kgc:weapon kd:Drug;
+  kgc:weapon kd:Drug;
   kgc:scar kd:noScar.
 
 #刺殺
 kd:stabbing a kgc:causeOfDeath;
-  kgc:stmptoms kd:bleeding;
-  kgc:stmptoms kd:stabWound;
+  kgc:symptoms kd:bleeding;
+  kgc:symptoms kd:stabWound;
   kgc:weapon kd:knife;
   kgc:scar kd:scar.
 
 #絞殺
 kd:strangulation a kgc:causeOfDeath;
-  kgc:stmptoms kd:ligatureMark;
+  kgc:symptoms kd:ligatureMark;
   kgc:weapon kd:rope;
   kgc:weapon kd:outlet;
   kgc:weapon kd:belt;
@@ -46,13 +46,13 @@ kd:strangulation a kgc:causeOfDeath;
 
 #撲殺
 kd:wrestling a kgc:causeOfDeath;
-  kgc:stmptoms kd:bleeding;
-  kgc:stmptoms kd:bruise;
+  kgc:symptoms kd:bleeding;
+  kgc:symptoms kd:bruise;
   kgc:weapon kd:bluntInstrument;
   kgc:scar kd:scar.
 
 #溺殺
 kd:drowning a kgc:causeOfDeath;
-  kgc:stmptoms kd:bubble;
+  kgc:symptoms kd:bubble;
   kgc:weapon kd:stunGun;
   kgc:scar kd:noScar.

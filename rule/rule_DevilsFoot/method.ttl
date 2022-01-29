@@ -63,7 +63,7 @@ IF {
         kgc:what kd:Early_symptom_of_the_drug;
         kgc:subject ?a.
     # 狂気は中毒死の症状である
-    ?d kgc:stmptoms ?a;
+    ?d kgc:symptoms ?a;
         kgc:weapon kd:Drug.
     } THEN { 
     ?x kgc:take kd:Drug.
@@ -109,9 +109,9 @@ IF {
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
         kgc:subject ?x.
     # 失神は中毒死の症状である
-    ?d kgc:stmptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>.
+    ?d kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>.
     } THEN { 
-    ?x kgc:get ?d.
+    ?x kgc:take kd:Drug.
     } 
 """. 
 
@@ -203,6 +203,7 @@ IF {
 # モーティマーはブレンダを殺すことができる
 
 
+# --- 第二の事件 ---
 
 # ランプで薬物（魔足根）が燃やされた
 
@@ -213,6 +214,7 @@ IF {
 
 # モーティマーは中毒死の可能性がある
 
+# モーティマーはモーティマーを殺すことができる
 
 # スタンデールはモーティマーを殺すことができる
 
