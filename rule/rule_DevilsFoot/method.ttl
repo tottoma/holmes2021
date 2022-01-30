@@ -83,7 +83,8 @@ IF {
     # オーウェンとジョージは動けなかった
     ?x kgc:cannot kd:Move.
     # オーウェンとジョージは薬物を摂取した
-    ?x kgc:take kd:Drug.
+    ?x2 kgc:take kd:Drug.
+    filter(?x = ?x2)
     } THEN { 
     ?x kgc:cannotMurder kd:Brenda.
     } 
@@ -239,7 +240,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 薬物は魔足根である
-    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
+    kd:432 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
         kgc:what ?a;
         kgc:subject kd:Drug.
     } THEN { 
@@ -279,11 +280,11 @@ IF {
     # 紙包みは、毒薬ラベルを貼られていた
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/bePasted>;
         kgc:what kd:Poison_label;
-        kgc:subject ?a.
+        kgc:subject kd:Paper_package.
     # 魔足根は薬物である
     # kd:Magic_foot kgc:is kd:Drug.
     } THEN { 
-    ?a kgc:is kd:Magic_foot.
+    kd:Paper_package kgc:is kd:Magic_foot.
     } 
 """. 
 
@@ -347,11 +348,11 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # スタンデールはアフリカの珍品の一部を見せた
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/show>;
-        kgc:what ?a;
+        kgc:what kd:rare_object_of_Africa;
         kgc:subject kd:Standale.
     # 粉薬はアフリカの珍品の一部だった
     ?id2 kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
-        kgc:what ?a;
+        kgc:what kd:rare_object_of_Africa;
         kgc:subject kd:Powder_medicine.
     # スタンデールは魔足根を持っている
     kd:Standale kgc:have kd:Magic_foot.
@@ -414,14 +415,18 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
+    {
     # ブレンダの死因は中毒死である
-    ?x kgc:die kd:poisoning.
-    # 魔足根は人を殺せる
-    ?a kgc:canKill kd:Human.
+    kd:Brenda kgc:die kd:poisoning.
     # モーティマーは魔足根を持っている
     ?y kgc:have ?a.
+    }union{
+    ?y kgc:have ?a.
+    # 魔足根は人を殺せる
+    ?a kgc:canKill kd:Human.
+    }
     } THEN { 
-    ?y kgc:canMurder ?x.
+    ?y kgc:canMurder kd:Brenda.
     } 
 """. 
 
