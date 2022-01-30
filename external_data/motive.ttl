@@ -25,3 +25,6 @@ kd:regret a kgc:motivation.
 
 ## 常識ルール: 自衛は動機になりえる
 kd:self_defense a kgc:motivation.
+
+## 常識ルール: 協力は動機になりえる
+kd:cooperation a kgc:motivation
