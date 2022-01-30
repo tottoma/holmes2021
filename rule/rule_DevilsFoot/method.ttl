@@ -165,14 +165,65 @@ IF {
 
 # --- ブレンダの死因 ---
 
-# ブレンダは薬物を使われた可能性
-
+# ブレンダは薬物を摂取した
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # オーウェンとジョージとブレンダは同じ部屋にいた
+    kd:Owen kgc:inTheSameRoom ?x.
+    kd:George kgc:inTheSameRoom ?x.
+    # オーウェンとジョージは薬物を摂取した
+    # kd:Owen kgc:take kd:Drug.
+    # kd:George kgc:take kd:Drug.
+    # 毒物が部屋に充満していた
+    kd:poison kgc:full kd:In_the_room.
+    } THEN { 
+    ?x kgc:take kd:Drug.
+    } 
+""". 
 
 # ブレンダは外傷のない死因である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ブレンダは乱暴されていない
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notBeViolated>;
+        kgc:subject ?x.
+    } THEN { 
+    ?x kgc:die kd:noScar.
+    } 
+""". 
 
-
-# ブレンダの死因は中毒死である可能性
-
+# ブレンダの死因は中毒死である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ブレンダは薬物を摂取した
+    ?x kgc:take kd:Drug.
+    # ブレンダは外傷のない死因である
+    ?x kgc:die kd:noScar.
+    } THEN { 
+    ?x kgc:die kd:poisoning.
+    } 
+""". 
 
 # --- 魔足根についての情報 ---
 
