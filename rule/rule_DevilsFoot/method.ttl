@@ -61,7 +61,10 @@ IF {
     # 狂気は薬物の初期症状である
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
         kgc:what kd:Early_symptom_of_the_drug;
-        kgc:subject kd:Madness.
+        kgc:subject ?a.
+    # 狂気は中毒死の症状である
+    ?d kgc:symptoms ?a;
+        kgc:weapon kd:Drug.
     } THEN { 
     ?x kgc:take kd:Drug.
     } 
@@ -89,24 +92,138 @@ IF {
 
 # --- 部屋と毒物 ---
 
-# ドクター・リチャードは中毒を起こした
+# ドクター・リチャードは薬物を摂取した
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ドクター・リチャードの顔は真っ青だった
+    ?id kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/blue>;
+        kgc:subject kd:face_of_Doctor_Richard.
+    # ドクター・リチャードは失神しかけた
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
+        kgc:subject ?x.
+    # 失神は中毒死の症状である
+    ?d kgc:symptoms <http://kgc.knowledge-graph.jp/data/predicate/fainting>;
+        kgc:weapon kd:Drug.
+    } THEN { 
+    ?x kgc:take kd:Drug.
+    } 
+""". 
 
-# 暖炉で薬物（魔足根）が燃やされた
+# 暖炉で薬物が燃やされた
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 黒焦げの灰が暖炉の中に残っていた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/exist>;
+        kgc:where ?a;
+        kgc:subject kd:Charred_ash.
+    # 薬物は燃焼時に作用する
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/act>;
+        kgc:when kd:combustion;
+        kgc:subject ?b.
+    # ドクター・リチャードは薬物を摂取した
+    kd:Doctor_Richard kgc:take ?b.
+    } THEN { 
+    ?b kgc:burn ?a.
+    } 
+""". 
 
-# 朝まで毒物が部屋に充満していた
-
+# 毒物が部屋に充満していた
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 今朝、窓は閉まっていた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beClosed>;
+        kgc:when kd:this_morning;
+        kgc:subject kd:window.
+    # 暖炉で薬物が燃やされた
+    kd:Drug kgc:burn kd:Inside_of_fireplace.
+    } THEN { 
+    kd:poison kgc:full kd:In_the_room.
+    } 
+""". 
 
 
 # --- ブレンダの死因 ---
 
-# ブレンダは薬物を使われた可能性
-
+# ブレンダは薬物を摂取した
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # オーウェンとジョージとブレンダは同じ部屋にいた
+    kd:Owen kgc:inTheSameRoom ?x.
+    kd:George kgc:inTheSameRoom ?x.
+    # オーウェンとジョージは薬物を摂取した
+    # kd:Owen kgc:take kd:Drug.
+    # kd:George kgc:take kd:Drug.
+    # 毒物が部屋に充満していた
+    kd:poison kgc:full kd:In_the_room.
+    } THEN { 
+    ?x kgc:take kd:Drug.
+    } 
+""". 
 
 # ブレンダは外傷のない死因である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ブレンダは乱暴されていない
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notBeViolated>;
+        kgc:subject ?x.
+    } THEN { 
+    ?x kgc:die kd:noScar.
+    } 
+""". 
 
-
-# ブレンダの死因は中毒死である可能性
-
+# ブレンダの死因は中毒死である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ブレンダは薬物を摂取した
+    ?x kgc:take kd:Drug.
+    # ブレンダは外傷のない死因である
+    ?x kgc:die kd:noScar.
+    } THEN { 
+    ?x kgc:die kd:poisoning.
+    } 
+""". 
 
 # --- 魔足根についての情報 ---
 
@@ -138,6 +255,7 @@ IF {
 # モーティマーはブレンダを殺すことができる
 
 
+# --- 第二の事件 ---
 
 # ランプで薬物（魔足根）が燃やされた
 
@@ -148,6 +266,7 @@ IF {
 
 # モーティマーは中毒死の可能性がある
 
+# モーティマーはモーティマーを殺すことができる
 
 # スタンデールはモーティマーを殺すことができる
 
