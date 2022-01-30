@@ -57,7 +57,7 @@ IF {
      kgc:where ?o2 . 
    ?o rdf:type kgc:Person.
     } THEN {         
-	?o kgc:hasPredicate kd:wasAtTheScene .
+	?o kgc:hasProperty kd:wasAtTheScene .
         }
 """. 
 
