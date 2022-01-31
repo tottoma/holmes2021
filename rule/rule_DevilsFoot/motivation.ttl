@@ -15,14 +15,15 @@ IF {
     # モーティマーは金銭の配分に不満だった
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/dissatisfied>;
         kgc:what kd:distribution_of_money;
-        kgc:subject ?x.
+        kgc:subject ?x1.
     # モーティマーは、オーウェンとジョージとブレンダと問題を持った
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/have>;
         kgc:what kd:problem;
         kgc:whom kd:Brenda;
-        kgc:subject ?x.
+        kgc:subject ?x2.
+    filter(?x1 = ?x2)
     } THEN { 
-    ?x kgc:haveMotivationForBrenda kd:money.
+    ?x1 kgc:haveMotivationForBrenda kd:money.
     } 
 """. 
 
@@ -59,15 +60,16 @@ IF {
     # 復讐は殺人の動機になりうる
     kd:murder kgc:motivation kd:revenge.
     # スタンデールとブレンダは恋人関係である
-    ?x kgc:lovers kd:Brenda.
+    ?x1 kgc:lovers kd:Brenda.
     # ブレンダはモーティマーによって殺された
 
     # スタンデールは地方警察を信用しない
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notTrust>;
         kgc:what kd:Local_police;
-        kgc:subject ?x.
+        kgc:subject ?x2.
+    filter(?x1 = ?x2)
     } THEN { 
-    ?x kgc:haveMotivationForMortimer kd:revenge.
+    ?x1 kgc:haveMotivationForMortimer kd:revenge.
     } 
 """. 
 
@@ -86,12 +88,13 @@ IF {
     # モーティマーは以下に罪悪感を抱いたかもしれない
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/feel>;
         kgc:what kd:Sense_of_guilt;
-        kgc:subject ?x.
+        kgc:subject ?x1.
     # モーティマーは肉親を破滅させた
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/ruin>;
         kgc:what kd:Immediate_family;
-        kgc:subject ?x.
+        kgc:subject ?x2.
+    filter(?x1 = ?x2)
     } THEN { 
-    ?x kgc:haveMotivationForMortimer kd:regret.
+    ?x1 kgc:haveMotivationForMortimer kd:regret.
     } 
 """. 
