@@ -13,18 +13,19 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 #  kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose> ;
 #  kgc:what kd:money .
 
-## 常識ルール2008: お金は動機になりえる
 kgc:motivation a rdfs:hasProperty .
+
+## 常識ルール: お金は殺人の動機になりえる
 kd:murder kgc:motivation kd:money.
 
-## 常識ルール: 復讐は動機になりえる
+## 常識ルール: 復讐は殺人の動機になりえる
 kd:murder kgc:motivation kd:revenge.
+
+## 常識ルール: 自衛は殺人の動機になりえる
+kd:murder kgc:motivation kd:self_defense.
+
+## 常識ルール: 協力は殺人の動機になりえる
+kd:murder kgc:motivation kd:cooperation.
 
 ## 常識ルール: 後悔は動機になりえる
 kd:suicide kgc:motivation kd:regret.
-
-## 常識ルール: 自衛は動機になりえる
-kd:murder kgc:motivation kd:self_defense.
-
-## 常識ルール: 協力は動機になりえる
-kd:murder kgc:motivation kd:cooperation.
