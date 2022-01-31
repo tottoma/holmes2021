@@ -15,13 +15,14 @@ IF {
     # オーウェンとジョージとブレンダは姿勢を変えなかった
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notChange>;
         kgc:what kd:posture;
-        kgc:subject ?x.
+        kgc:subject ?x1.
     # オーウェンとジョージとブレンダは椅子を引かなかった
     ?id2 kgc:hasPredicate   <http://kgc.knowledge-graph.jp/data/predicate/notDraw>;
         kgc:what kd:Chair;
-        kgc:subject ?x.
+        kgc:subject ?x2.
+    filter(?x1 = ?x2)
     } THEN { 
-    ?x kgc:cannot kd:Move.
+    ?x1 kgc:cannot kd:Move.
     } 
 """. 
 
@@ -35,10 +36,14 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
-    # オーウェンとジョージとブレンダはトリジェニス家にいた
-    ?x kgc:hasProperty kd:wasAtTheScene1.
-    # オーウェンとジョージとブレンダは動けなかった
-    ?y kgc:cannot kd:Move.
+    # オーウェンとジョージとブレンダは姿勢を変えなかった
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notChange>;
+        kgc:what kd:posture;
+        kgc:subject ?x.
+    # オーウェンとジョージとブレンダは椅子を引かなかった
+    ?id2 kgc:hasPredicate   <http://kgc.knowledge-graph.jp/data/predicate/notDraw>;
+        kgc:what kd:Chair;
+        kgc:subject ?y.
     filter(?x != ?y)
     } THEN { 
     ?x kgc:inTheSameRoom ?y.
@@ -61,10 +66,11 @@ IF {
     # 狂気は薬物の初期症状である
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
         kgc:what kd:Early_symptom_of_the_drug;
-        kgc:subject ?a.
+        kgc:subject ?a1.
     # 狂気は中毒死の症状である
-    ?d kgc:symptoms ?a;
+    ?d kgc:symptoms ?a2;
         kgc:weapon kd:Drug.
+    filter(?a1 = ?a2)
     } THEN { 
     ?x kgc:take kd:Drug.
     } 
@@ -81,11 +87,12 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # オーウェンとジョージは動けなかった
-    ?x kgc:cannot kd:Move.
+    ?x1 kgc:cannot kd:Move.
     # オーウェンとジョージは薬物を摂取した
-    ?x kgc:take kd:Drug.
+    ?x2 kgc:take kd:Drug.
+    filter(?x1 = ?x2)
     } THEN { 
-    ?x kgc:cannotMurder kd:Brenda.
+    ?x1 kgc:cannotMurder kd:Brenda.
     } 
 """. 
 
@@ -133,11 +140,12 @@ IF {
     # 薬物は燃焼時に作用する
     ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/act>;
         kgc:when kd:combustion;
-        kgc:subject ?b.
+        kgc:subject ?b1.
     # ドクター・リチャードは薬物を摂取した
-    kd:Doctor_Richard kgc:take ?b.
+    kd:Doctor_Richard kgc:take ?b2.
+    filter(?b1 = ?b2)
     } THEN { 
-    ?b kgc:burn ?a.
+    ?b1 kgc:burn ?a.
     } 
 """. 
 
@@ -158,7 +166,7 @@ IF {
     # 暖炉で薬物が燃やされた
     kd:Drug kgc:burn kd:Inside_of_fireplace.
     } THEN { 
-    kd:poison kgc:full kd:In_the_room.
+    kd:poison kgc:full kd:In_the_room1.
     } 
 """. 
 
@@ -176,15 +184,15 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # オーウェンとジョージとブレンダは同じ部屋にいた
-    kd:Owen kgc:inTheSameRoom ?x.
-    kd:George kgc:inTheSameRoom ?x.
+    kd:Owen kgc:inTheSameRoom kd:Brenda.
+    kd:George kgc:inTheSameRoom kd:Brenda.
     # オーウェンとジョージは薬物を摂取した
     # kd:Owen kgc:take kd:Drug.
     # kd:George kgc:take kd:Drug.
     # 毒物が部屋に充満していた
-    kd:poison kgc:full kd:In_the_room.
+    kd:poison kgc:full kd:In_the_room1.
     } THEN { 
-    ?x kgc:take kd:Drug.
+    kd:Brenda kgc:take kd:Drug.
     } 
 """. 
 
@@ -217,59 +225,318 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # ブレンダは薬物を摂取した
-    ?x kgc:take kd:Drug.
+    kd:Brenda kgc:take kd:Drug.
     # ブレンダは外傷のない死因である
-    ?x kgc:die kd:noScar.
+    # ?x2 kgc:die kd:noScar.
+    # filter(?x1 = ?x2)
     } THEN { 
-    ?x kgc:die kd:poisoning.
+    kd:Brenda kgc:die kd:poisoning.
     } 
 """. 
 
+
 # --- 魔足根についての情報 ---
 
-
 # 魔足根は薬物である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 薬物は魔足根である
+    kd:432 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
+        kgc:what ?a;
+        kgc:subject kd:Drug.
+    } THEN { 
+    ?a kgc:is kd:Drug.
+    } 
+""". 
 
 # 魔足根は人を殺せる
-
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 魔足根は薬物である
+    ?a kgc:is ?b1.
+    # 中毒死の凶器として薬物がある
+    kd:poisoning kgc:weapon ?b2.
+    filter(?b1 = ?b2)
+    } THEN { 
+    ?a kgc:canKill kd:Human.
+    } 
+""". 
 
 # 紙包みは魔足根である
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 紙包みは、毒薬ラベルを貼られていた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/bePasted>;
+        kgc:what kd:Poison_label;
+        kgc:subject kd:Paper_package.
+    # 魔足根は薬物である
+    # kd:Magic_foot kgc:is kd:Drug.
+    } THEN { 
+    kd:Paper_package kgc:is kd:Magic_foot.
+    } 
+""". 
 
-# スタンデールは魔足根の情報を知っている
+
+# --- 魔足根と人物の関係 ---
+
+# スタンデールは魔足根の使い方を知っている
+# モーティマーは魔足根の使い方を知っている
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # そして、スタンデールはモーティマーに粉薬の性質を教えた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/tell>;
+        kgc:what kd:Nature_of_powder_medicine;
+        kgc:whom ?y;
+        kgc:subject ?x.
+    # 紙包みは魔足根である
+    kd:Paper_package kgc:is kd:Magic_foot.
+    } THEN { 
+    ?x kgc:know kd:How_to_use_Magic_foot.
+    ?y kgc:know kd:How_to_use_Magic_foot.
+    } 
+""". 
 
 # スタンデールは魔足根を持っている
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # スタンデールは紙包みをテーブルの上に置いた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/put>;
+        kgc:what ?b1;
+        kgc:subject ?x.
+    # 紙包みは魔足根である
+    ?b2 kgc:is ?a.
+    filter(?b1 = ?b2)
+    } THEN { 
+    ?x kgc:have ?a.
+    } 
+""". 
 
 # モーティマーは魔足根のありかを知っている
-# モーティマーは魔足根を手に入れることができる
-
-
-# モーティマーは魔足根の情報を知っている
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # スタンデールはアフリカの珍品の一部を見せた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/show>;
+        kgc:what kd:rare_object_of_Africa;
+        kgc:subject kd:Standale.
+    # 粉薬はアフリカの珍品の一部だった
+    ?id2 kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
+        kgc:what kd:rare_object_of_Africa;
+        kgc:subject kd:Powder_medicine.
+    # スタンデールは魔足根を持っている
+    kd:Standale kgc:have kd:Magic_foot.
+    } THEN { 
+    kd:Mortimer kgc:know kd:Where_Magic_foot.
+    } 
+""". 
 
 # モーティマーは魔足根に興味がある
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ヨーロッパ化学は魔足根を検出しない
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notDetect>;
+        kgc:what ?a.
+    # モーティマーはスタンデールに熱心に質問していた
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/question>;
+        kgc:how kd:Eagerly;
+        kgc:subject ?x.
+    } THEN { 
+    ?x kgc:isInterestedIn ?a.
+    } 
+""". 
 
-# モーティマーは魔足根を使うことができる（使い方を知っている）
-
-# モーティマーは魔足根を持っている（これいる？）
-
+# モーティマーは魔足根を持っている
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # モーティマーは魔足根の使い方を知っている
+    kd:Mortimer kgc:know kd:How_to_use_Magic_foot.
+    # モーティマーは魔足根に興味がある
+    kd:Mortimer kgc:isInterestedIn kd:Magic_foot.
+    # モーティマーは魔足根のありかを知っている
+    kd:Mortimer kgc:know kd:Where_Magic_foot.
+    } THEN { 
+    kd:Mortimer kgc:have kd:Magic_foot.
+    } 
+""". 
 
 # モーティマーはブレンダを殺すことができる
+# スタンデールはブレンダを殺すことができる
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ブレンダの死因は中毒死である
+    # kd:Brenda kgc:die kd:poisoning.
+    # モーティマーは魔足根を持っている
+    ?x kgc:have ?a1.
+    # 魔足根は人を殺せる
+    ?a2 kgc:canKill kd:Human.
+    filter(?a1 = ?a2)
+    } THEN { 
+    ?x kgc:canMurder kd:Brenda.
+    } 
+""". 
 
 
 # --- 第二の事件 ---
 
 # ランプで薬物（魔足根）が燃やされた
-
-# 窓はずっと閉められていた
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 魔足根は薬物である
+    ?a kgc:is ?b1.
+    # 薬物は燃焼時に作用する
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/act>;
+        kgc:when kd:combustion;
+        kgc:subject ?b2.
+    # ランプの防煙部と滑石製の外装に灰があった
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/exist>;
+        kgc:on kd:Smoke_protection_of_lamp;
+        kgc:subject kd:Ash.
+    filter(?b1 = ?b2)
+    } THEN { 
+    ?a kgc:burn kd:In_the_ramp.
+    } 
+""". 
 
 # 毒物が部屋に充満していた
-
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ランプで魔足根が燃やされた
+    kd:Magic_foot kgc:burn kd:In_the_ramp.
+    # 事件後、使用人が窓を開けた
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/open>;
+        kgc:what kd:window;
+        kgc:when kd:After_Case_2.
+    # 空気はもっと悪くなっていた
+    ?id2 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/worse>;
+        kgc:if ?id3;
+        kgc:subject kd:air.
+    # もし窓が開いていない
+    ?id4 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/close>;
+        kgc:subject kd:window.
+    filter(?id3 = ?id4)
+    } THEN { 
+    kd:poison kgc:full kd:In_the_room2.
+    } 
+""". 
 
 # モーティマーは中毒死の可能性がある
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ブレンダは中毒死の可能性がある
+    # kd:Brenda kgc:die kd:poisoning.
+    # 昨晩、モーティマーがブレンダと同じ症状で亡くなった
+    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>;
+        kgc:how kd:symptoms_of_Brenda;
+        kgc:subject kd:Mortimer.
+    # 毒物が部屋に充満していた
+    kd:poison kgc:full kd:In_the_room2.
+    } THEN { 
+    kd:Mortimer kgc:die kd:poisoning.
+    } 
+""". 
 
 # モーティマーはモーティマーを殺すことができる
-
 # スタンデールはモーティマーを殺すことができる
-
-
-
-
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # モーティマーの死因は中毒死である
+    # kd:Mortimer kgc:die kd:poisoning.
+    # モーティマーは魔足根を持っている
+    ?x kgc:have ?a1.
+    # 魔足根は人を殺せる
+    ?a2 kgc:canKill kd:Human.
+    filter(?a1 = ?a2)
+    } THEN { 
+    ?x kgc:canMurder kd:Mortimer.
+    } 
+""". 

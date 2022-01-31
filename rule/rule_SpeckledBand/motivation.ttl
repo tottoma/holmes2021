@@ -41,7 +41,7 @@ IF {
    kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
-      ?o kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
+      ?o kgc:haveMotivation kd:cooperation .
         ## kgc:cooperateWith kd:Roylott .
         }
 """. 

@@ -1,0 +1,56 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+
+# とりあえず,分けて作りました
+
+# 砂利が現場の物証である
+# filter使うと,エラーが出るかも知れなかったので,とりあえずfilterは使用していません.(ONにした方が,より説明に適する)
+# hasPropertyは人物検索でのみの使用を想定した為,物証であるはkgc:isRelatedToで繋ぎました.
+
+# 2021/1/30 動作確認済み(Takei)
+
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject kd:Starting_point_of_investigation;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo>;
+        kgc:what ?o1;
+        kgc:on kd:frame_of_Window.
+    ?id2 kgc:subject ?o2;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notExist>;
+         kgc:where kd:garden_of_pastoral_hall.
+    # filter(?o1 = ?o2)
+    } THEN {         
+	?o1 kgc:isRelatedTo kd:field_message.
+    }
+""". 
+
+# スタンデールは現場の物証と関係ある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    #この?s指定はIF内とTHEN内で,kgc:isRelatedToを使うため
+    kd:gravel kgc:isRelatedTo ?o1.
+    ?s kgc:subject kd:Holmes;
+       kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/find>;
+       kgc:what ?o2;
+       kgc:where kd:garden_of_Cottage_of_Standale.
+    # 出来れば,スタンデールのコテージの庭は,スタンデールの物を足したい
+    # しかしスタンデールは本グラフ上では人ではない様子(故に指定ができない.)
+    # 外ファイルでkgc:isRelatedToが利用されていることを考慮し,ここではfilterを足す.
+    # filter(?s = ?o2)
+    } THEN {         
+	kd:Standale kgc:isRelatedTo ?o1.
+    }
+""".
