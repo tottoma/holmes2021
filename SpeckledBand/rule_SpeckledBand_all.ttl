@@ -99,12 +99,10 @@ IF {
        kgc:whom kd:friend_of_Roylott .
    kd:friend_of_Roylott kgc:partOf kd:friend ;
        kgc:wholeOf kd:Roylott . 
-   ##
    kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
-      ?o kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
-        ## kgc:cooperateWith kd:Roylott .
+      ?o kgc:haveMotivation kd:cooperation. 
         }
 """. 
 
