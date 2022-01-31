@@ -57,7 +57,7 @@ IF {
      kgc:where ?o2 . 
    ?o rdf:type kgc:Person.
     } THEN {         
-	?o kgc:hasPredicate kd:wasAtTheScene .
+	?o kgc:hasProperty kd:wasAtTheScene .
         }
 """. 
 
@@ -103,7 +103,7 @@ IF {
    kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
-      ?o kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
+      ?o kgc:haveMotivation kd:cooperation .
         ## kgc:cooperateWith kd:Roylott .
         }
 """. 
