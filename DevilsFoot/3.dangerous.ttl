@@ -10,12 +10,21 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF {
+    {
     kd:352 kgc:subject ?c;
         kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/cunning>.
     kd:353 kgc:subject ?c;
          kgc:hasProperty <http://kgc.knowledge-graph.jp/data/predicate/greedy>.
     kd:354 kgc:subject ?c;
          kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGenerous>.
+    }union{
+    kd:213 kgc:subject ?c;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notHave>;
+        kgc:what kd:Get_along;
+        kgc:whom kd:neighbor.
+    kd:214 kgc:subject ?c;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beIsolated>.
+    }
     } THEN {
     ?c kgc:hasProperty kd:dangerous.
     } 
