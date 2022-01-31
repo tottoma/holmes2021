@@ -8,36 +8,38 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
 ## インド
-kd:India kgc:have kd:animal_of_India ;
-         kgc:have kd:snake .##########消す
-
-## インドの動物
-kd:animal_of_India a rdfs:Class ;
-  rdfs:subClassOf kgc:Animal ;
-  kgc:isFrom kd:India .
+kd:India kgc:have kd:snake ;##########消す
+  kgc:have kd:baboon ;
+  kgc:have kd:elephant .
 
 # 蛇
-kd:snake a kd:animal_of_India ;
+kd:snake a kgc:animal ;
+  kgc:isFrom kd:India;
 # 蛇の模様はまだら
   kgc:hasProperty kd:speckled; #まだら
   kgc:hasProperty kd:striped ; ## 縞
   kgc:hasProperty kd:chainlike ; ## 鎖
 ## 毒
   kgc:hasProperty kd:poisonous ;
+  kgc:hasProperty kd:no_poisonous;
 ## 形状
   kgc:hasProperty kd:band .
   
 ## 毒蛇
-kd:poison_snake a kd:snake;
-  kgc:hasProperty kd:poison .
+# kd:poison_snake a kd:snake;
+#   kgc:hasProperty kd:poison .
 
-kd:poisonous_snake a kd:snake ;
-  kgc:hasProperty kd:poisonous .
+# kd:poisonous_snake a kd:snake ;
+#   kgc:hasProperty kd:poisonous .
 
 # サル
-kd:baboon a kd:animal_of_India .
+kd:baboon a kd:animal_of_India ;
+  kgc:isFrom kd:India;
+  kgc:hasProperty kd:no_poisonous.
 
 # ゾウ
-kd:elephant a kgc:animal_of_India .
+kd:elephant a kgc:animal_of_India ;
+  kgc:isFrom kd:India;
+  kgc:hasProperty kd:no_poisonous.
 
 # 動物一覧...
