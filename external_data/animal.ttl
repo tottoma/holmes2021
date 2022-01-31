@@ -33,12 +33,12 @@ kd:snake a kgc:animal ;
 #   kgc:hasProperty kd:poisonous .
 
 # サル
-kd:baboon a kd:animal_of_India ;
+kd:baboon a kgc:animal ;
   kgc:isFrom kd:India;
   kgc:hasProperty kd:no_poisonous.
 
 # ゾウ
-kd:elephant a kgc:animal_of_India ;
+kd:elephant a kgc:animal ;
   kgc:isFrom kd:India;
   kgc:hasProperty kd:no_poisonous.
 
