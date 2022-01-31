@@ -1,6 +1,6 @@
 ## motive.ttl
 
-PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
 PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
