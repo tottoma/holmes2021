@@ -1,0 +1,106 @@
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+#"左辺"が"ラベル"である
+
+#家族ラベル
+kgc:family a rdf:Property .
+
+#親ラベル
+kgc:parent a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#子ラベル
+kgc:child a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#配偶者ラベル
+kgc:spouse a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#-----------------------------
+#直接つながっていない家族関係
+
+#兄弟姉妹ラベル
+kgc:sibling a rdf:Property;
+  rdfs:subPropertyOf kgc:family.
+
+#その他、おじおば、祖父母、孫など
+#-----------------------------
+
+#############################
+PREFIX rule: <tag:stardog:api:rule:> 
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+  {
+    ?s kgc:parent ?o.
+  }union{
+    ?o kgc:child ?s.
+  }
+} THEN {
+  ?o kgc:child ?s.
+  ?s kgc:parent ?o.
+}
+""".
+
+# [] a rule:SPARQLRule ; 
+# rule:content """
+# PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+# PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+# PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+# PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+# PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+# PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+# IF {
+# ?s kgc:child ?o.
+# } THEN {
+# ?o kgc:parent ?s.
+# }
+# """.
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+?s kgc:spouse ?o.
+} THEN {
+?o kgc:spouse ?s.
+}
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+?s kgc:parent ?o.
+?s2 kgc:parent ?o. 
+filter(?s != ?s2)
+} THEN {
+?s kgc:sibling ?s2.
+?s2 kgc:sibling ?s.
+}
+""".
+
+################################### Speckled Band
+kd:Helen kgc:parent kd:Roylott .
+kd:Julia kgc:parent kd:Roylott .
+################################### 
