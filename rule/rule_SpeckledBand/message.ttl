@@ -19,7 +19,7 @@ IF {
     # ダイングメッセージはspeckled_band
     kd:dying_message kgc:is kd:speckled_band.
     # speckled_bandはband
-    kd:speckled_band kgc:hasProperty kd:band.
+    # kd:speckled_band kgc:hasProperty kd:band.
     # speckled_bandはspeckled
     kd:speckled_band kgc:hasProperty kd:speckled.#;
     #  kgc:what kd:band .
@@ -63,13 +63,13 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 蛇はbandとspeckledの特徴を持つ
     # 蛇は?aと?bの特徴を持つ
-    kd:snake kgc:hasProperty ?a;
-        kgc:hasProperty ?b.
+    kd:snake kgc:hasProperty ?a.#;
+      #  kgc:hasProperty ?b.
     # ダイイングメッセージはspeckled_bandで，speckled_bandはbandとspeckledの特徴を持つ
     # ダイイングメッセージは?xで，?xは?aと?bの特徴を持つ
     kd:dying_message kgc:is ?x.
-    ?x kgc:hasProperty ?a;
-        kgc:what ?b.
+    ?x kgc:hasProperty ?a.#;
+    #    kgc:what ?b.
     } THEN { 
     # まだらの紐は蛇である可能性がある
     # ダイイングメッセージ?xは蛇である可能性がある

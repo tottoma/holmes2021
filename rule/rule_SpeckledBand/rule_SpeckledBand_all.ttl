@@ -57,7 +57,7 @@ IF {
      kgc:where ?o2 . 
    ?o rdf:type kgc:Person.
     } THEN {         
-	?o kgc:hasProperty kd:wasAtTheScene .
+	?o kgc:hasPredicate kd:wasAtTheScene .
         }
 """. 
 
@@ -103,7 +103,7 @@ IF {
    kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
-      ?o kgc:haveMotivation kd:cooperation .
+      ?o kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
         ## kgc:cooperateWith kd:Roylott .
         }
 """. 
@@ -128,7 +128,6 @@ IF {
 	?o kgc:haveMotivation kd:money .
         }
 """. 
-
 ## method
 ######################### 密室条件 #########################
 [] a rule:SPARQLRule ;
@@ -378,7 +377,7 @@ IF {
         kgc:what kd:scar;
         kgc:where kd:body_of_Julia.
    } THEN { 
-    ?c kgc:die kd:no_scar.
+    ?c kgc:die kd:noScar.###
    } 
 """. 
 
@@ -393,7 +392,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF {
-    ?c kgc:die kd:no_scar ;
+    ?c kgc:die kd:noScar ;
        kgc:die kd:no_poisonous.
     kd:378 kgc:subject kd:coroner;
            kgc:what kd:poison_of_snake;
@@ -407,7 +406,7 @@ IF {
     kd:86 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>.
     filter(?c = ?d)
    } THEN {
-    ?c kgc:die kd:poisonous.
+    ?c kgc:die kd:poisoning.###
    } 
 """.
 
@@ -495,12 +494,18 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
+    {
    ?c rdf:type kgc:Person;
       kgc:cannotEnter ?o2.
    ?x kgc:canEnter ?o;
       kgc:hasProperty kd:poisonous.
-   ?y kgc:die kd:poisonous.
+   ?y kgc:die kd:poisoning.
    filter(?o = ?o2)
+    }union{
+     ?x rdf:type kgc:Person ;
+        kgc:have ?x2 .
+     ?x2 kgc:canKill ?y .  
+    }
    } THEN { 
        ?x kgc:canKill ?y.
    } 
@@ -519,16 +524,14 @@ IF {
    ?s rdf:type kgc:Person ;
      kgc:have ?x .
    ?x kgc:canKill ?j .
+  #OPTIONAL{ ?x kgc:canKill ?z } .
+  #FILTER(bound(?z))
    } THEN { 
    ?s kgc:canMurder ?j.
    } 
 """.
 
-### message
-
-PREFIX rule: <tag:stardog:api:rule:> 
-
-# ダイイングメッセージはspeckled_band
+ #ダイイングメッセージはspeckled_band
 [] a rule:SPARQLRule ; 
 rule:content """ 
 PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
@@ -539,20 +542,22 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 事件当夜，ジュリアは "speckled_band" と言った
-    ?id kgc:subject kd:Julia;
+    ?o kgc:subject kd:Julia;
         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/say>;
         kgc:what kd:speckled_band;
+        kgc:what kd:band;
         kgc:when kd:death_day_of_Julia.
     } THEN { 
     # ダイングメッセージはspeckled_band
     kd:dying_message kgc:is kd:speckled_band.
-    # speckled_bandはspeckled
-    kd:speckled_band kgc:hasProperty kd:speckled.
     # speckled_bandはband
-    kd:speckled_band kgc:hasProperty kd:band.
+    # kd:speckled_band kgc:hasProperty kd:band.
+    # speckled_bandはspeckled
+    kd:speckled_band kgc:hasProperty kd:speckled.#;
+    #  kgc:what kd:band .
+    ##kd:speckled_band kgc:hasProperty kd:** が2文あると動かないなぜ
         } 
 """. 
-
 # ロマはダイイングメッセージに関係している
 [] a rule:SPARQLRule ; 
 rule:content """ 
@@ -567,12 +572,11 @@ IF {
     ?id kgc:subject ?x;
         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/have>;
         kgc:what ?a.
-    ?id2 kgc:subject ?a2;
+    ?id2 kgc:subject ?a;
         kgc:hasProperty ?b.
     # ダイイングメッセージは?cで，?cは?bの特徴を持つ
     kd:dying_message kgc:is ?c.
     ?c kgc:hasProperty ?b.
-    filter(?a = ?a2)
     } THEN { 
     # ?xはダイイングメッセージに関係している
     ?x kgc:isRelatedTo kd:dying_message.
@@ -591,13 +595,13 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 蛇はbandとspeckledの特徴を持つ
     # 蛇は?aと?bの特徴を持つ
-    kd:snake kgc:hasProperty ?a;
-        kgc:hasProperty ?b.
+    kd:snake kgc:hasProperty ?a. #;
+     #   kgc:hasProperty ?b.
     # ダイイングメッセージはspeckled_bandで，speckled_bandはbandとspeckledの特徴を持つ
     # ダイイングメッセージは?xで，?xは?aと?bの特徴を持つ
     kd:dying_message kgc:is ?x.
-    ?x kgc:hasProperty ?a;
-        kgc:hasProperty ?b.
+    ?x kgc:hasProperty ?a .#;
+    #    kgc:what ?b.
     } THEN { 
     # まだらの紐は蛇である可能性がある
     # ダイイングメッセージ?xは蛇である可能性がある
@@ -617,41 +621,15 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # ロイロットは蛇を飼っている
     # ?xは?aを飼っている
-    ?x kgc:have ?a.
-    ?x rdf:type kgc:Person.
+    ?x kgc:have ?a;
+        rdf:type kgc:Person.
     # ダイイングメッセージはまだらの紐である
     # ダイイングメッセージは?bである
     kd:dying_message kgc:is ?b.
     # まだらの紐は蛇である可能性がある
     # ?bは?aである可能性がある
     ?b kgc:canBe ?a.
-    } THEN { 
-    # ロイロットはダイイングメッセージに関係している
-    # ?xはダイイングメッセージに関係している
-    ?x kgc:isRelatedTo kd:dying_message.
-        } 
-""". 
 
-##########################################　犯人決定
-[] a rule:SPARQLRule ; 
-rule:content """ 
-PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
-PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl/#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-IF { 
-    # ロイロットは蛇を飼っている
-    # ?xは?aを飼っている
-    ?x kgc:have ?a.
-    ?x rdf:type kgc:Person.
-    # ダイイングメッセージはまだらの紐である
-    # ダイイングメッセージは?bである
-    kd:dying_message kgc:is ?b.
-    # まだらの紐は蛇である可能性がある
-    # ?bは?aである可能性がある
-    ?b kgc:canBe ?a.
     } THEN { 
     # ロイロットはダイイングメッセージに関係している
     # ?xはダイイングメッセージに関係している

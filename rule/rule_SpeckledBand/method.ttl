@@ -1,14 +1,5 @@
 PREFIX rule: <tag:stardog:api:rule:> 
-PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
-PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
 ## method
-
-## 常識ルール後で消す
-kd:India kgc:have kd:snake.
-kd:snake kgc:hasProperty kd:poisonous.
-# 蛇の形状は紐状
-kd:snake kgc:hasProperty kd:band.
-
 ######################### 密室条件 #########################
 [] a rule:SPARQLRule ;
 rule:content """ 
@@ -257,7 +248,7 @@ IF {
         kgc:what kd:scar;
         kgc:where kd:body_of_Julia.
    } THEN { 
-    ?c kgc:die kd:no_scar.
+    ?c kgc:die kd:noScar.###
    } 
 """. 
 
@@ -272,7 +263,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF {
-    ?c kgc:die kd:no_scar ;
+    ?c kgc:die kd:noScar ;
        kgc:die kd:no_poisonous.
     kd:378 kgc:subject kd:coroner;
            kgc:what kd:poison_of_snake;
@@ -286,7 +277,7 @@ IF {
     kd:86 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>.
     filter(?c = ?d)
    } THEN {
-    ?c kgc:die kd:poisonous.
+    ?c kgc:die kd:poisoning.###
    } 
 """.
 
@@ -379,7 +370,7 @@ IF {
       kgc:cannotEnter ?o2.
    ?x kgc:canEnter ?o;
       kgc:hasProperty kd:poisonous.
-   ?y kgc:die kd:poisonous.
+   ?y kgc:die kd:poisoning.
    filter(?o = ?o2)
     }union{
      ?x rdf:type kgc:Person ;
