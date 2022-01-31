@@ -19,7 +19,7 @@ IF {
     # ダイングメッセージはspeckled_band
     kd:dying_message kgc:is kd:speckled_band.
     # speckled_bandはband
-    kd:speckled_band kgc:hasProperty kd:band.
+    # kd:speckled_band kgc:hasProperty kd:band.
     # speckled_bandはspeckled
     kd:speckled_band kgc:hasProperty kd:speckled.#;
     #  kgc:what kd:band .
