@@ -27,5 +27,5 @@ kd:murder kgc:motivation kd:self_defense.
 ## 常識ルール: 協力は殺人の動機になりえる
 kd:murder kgc:motivation kd:cooperation.
 
-## 常識ルール: 後悔は動機になりえる
+## 常識ルール: 後悔は自殺の動機になりえる
 kd:suicide kgc:motivation kd:regret.
