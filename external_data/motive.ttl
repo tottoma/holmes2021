@@ -21,7 +21,7 @@ kd:murder kgc:motivation kd:money.
 kd:murder kgc:motivation kd:revenge.
 
 ## 常識ルール: 後悔は動機になりえる
-kd:murder kgc:motivation kd:regret.
+kd:suicide kgc:motivation kd:regret.
 
 ## 常識ルール: 自衛は動機になりえる
 kd:murder kgc:motivation kd:self_defense.
