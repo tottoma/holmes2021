@@ -11,7 +11,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # お金は殺人の動機になりうる
-    
+    kd:murder kgc:motivation kd:money.
     # モーティマーは金銭の配分に不満だった
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/dissatisfied>;
         kgc:what kd:distribution_of_money;
@@ -57,7 +57,7 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 復讐は殺人の動機になりうる
-    
+    kd:murder kgc:motivation kd:revenge.
     # スタンデールとブレンダは恋人関係である
     ?x kgc:lovers kd:Brenda.
     # ブレンダはモーティマーによって殺された
@@ -81,8 +81,8 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
-    # 後悔は自殺の動機になりうる（常識ルールには追加しない方がいい？）
-    
+    # 後悔は自殺の動機になりうる
+    kd:suicide kgc:motivation kd:regret.
     # モーティマーは以下に罪悪感を抱いたかもしれない
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/feel>;
         kgc:what kd:Sense_of_guilt;
