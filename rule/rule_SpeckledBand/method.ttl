@@ -161,7 +161,7 @@ IF {
     ?id kgc:subject ?c;
         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notWork>;
         kgc:why kd:216 .
-        #kgc:then ?id2.
+        
     kd:218 kgc:infoSource kd:Holmes;
          kgc:hasProperty kd:strange;
          kgc:subject kd:rope_of_bell.
@@ -229,7 +229,6 @@ IF {
         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notFind>;
         kgc:what kd:poison;
         kgc:where ?c.
-    #?c kgc:wholeOf ?x.
    } THEN { 
     kd:Julia kgc:die kd:no_poisonous.
    } 
@@ -248,7 +247,7 @@ IF {
         kgc:what kd:scar;
         kgc:where kd:body_of_Julia.
    } THEN { 
-    ?c kgc:die kd:noScar.###
+    ?c kgc:die kd:noScar.
    } 
 """. 
 
@@ -277,7 +276,7 @@ IF {
     kd:86 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>.
     filter(?c = ?d)
    } THEN {
-    ?c kgc:die kd:poisoning.###
+    ?c kgc:die kd:poisoning.
    } 
 """.
 
@@ -371,9 +370,12 @@ IF {
    ?x kgc:canEnter ?o;
       kgc:hasProperty kd:poisonous.
    ?y kgc:die kd:poisoning.
+    ## 中毒死の凶器としてヘビがある
+   kd:poisoning kgc:weapon ?x .
+
    filter(?o = ?o2)
     }union{
-     ?x rdf:type kgc:Person ;
+     ?c rdf:type kgc:Person ;
         kgc:have ?x2 .
      ?x2 kgc:canKill ?y .  
     }
@@ -395,8 +397,6 @@ IF {
    ?s rdf:type kgc:Person ;
      kgc:have ?x .
    ?x kgc:canKill ?j .
-  #OPTIONAL{ ?x kgc:canKill ?z } .
-  #FILTER(bound(?z))
    } THEN { 
    ?s kgc:canMurder ?j.
    } 
