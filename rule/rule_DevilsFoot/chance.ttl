@@ -1,24 +1,303 @@
 PREFIX rule: <tag:stardog:api:rule:> 
 
-# オーウェン，ジョージ，ブレンダはトリジェニス家にいた
-[] a rule:SPARQLRule ; 
-rule:content """ 
-PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/> 
+# 三兄弟とモーティマーをくっつけると,検索結果が複数にバラけてエラーが起こるかも知れないと思ったので,一旦バラしました.
+# 必要であればくっつけてください.
+# 条件はそれぞれ2パターンで作りました.(要らなかったら消してください)
+# kd:wasAtTheScene1は,三兄弟が殺された事件におけるトリジェニス家
+# kd:wasAtTheScene2は,モーティマーが殺された事件におけるトリジェニス家
+
+# filter使うと,エラーが出るかも知れなかったので,とりあえずfilterは使用していません.(ONにした方が,より説明に適する)
+
+# 2021/1/30 動作確認済み(Takei)
+
+# モーティマーがトリジェニス家にいる
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
 PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-IF { 
-    # モーティマーはトリジェニス家から帰った
-    ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/return>;
+IF {
+    ?id kgc:subject ?o;
         kgc:from kd:House_of_Trigenis;
-        kgc:subject ?y.
-    # モーティマーはオーウェン，ジョージ，ブレンダと別れた
-    ?id2 kgc:hasPredicate   <http://kgc.knowledge-graph.jp/data/predicate/separate>;
-        kgc:what ?x;
-        kgc:subject ?y.
-    } THEN { 
-    ?x kgc:hasProperty kd:wasAtTheScene1.
-        } 
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/return>.
+    } THEN {         
+	?o kgc:hasProperty kd:wasAtTheScene1.
+    }
 """. 
+
+# モーティマーがトリジェニス家にいる Part2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    kd:24 kgc:subject ?o;
+          kgc:from ?x;
+          kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/return>.
+    } THEN {         
+	?o kgc:wasIn ?x.
+    }
+""".
+
+# 三兄弟がトリジェニス家にいる
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:what ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/separate>.
+    } THEN {         
+	?o kgc:hasProperty kd:wasAtTheScene1.
+    }
+""". 
+
+# 三兄弟がトリジェニス家にいる Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:what ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/separate>.
+    } THEN {         
+	?o kgc:wasIn kd:House_of_Trigenis.
+    }
+""". 
+
+# ポーターはトリジェニス家にいる
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/exist>;
+        kgc:where kd:House.
+    } THEN {         
+	?o kgc:hasProperty kd:wasAtTheScene1.
+    }
+""".
+
+# ポーターはトリジェニス家にいる Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/exist>;
+        kgc:where kd:House.
+    } THEN {         
+	?o kgc:wasIn kd:House_of_Trigenis.
+    }
+""".
+
+# スタンデールはトリジェニス家にいない
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/arrive>;
+        kgc:to kd:Plymouth.
+    } THEN {         
+	?o kgc:hasProperty kd:wasNotAtTheScene1.
+    }
+""".
+
+# スタンデールはトリジェニス家にいない Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/arrive>;
+        kgc:to kd:Plymouth.
+    } THEN {         
+	?o kgc:wasNotIn kd:House_of_Trigenis.
+    }
+""".
+
+# ラウンドヘイはトリジェニス家にいない
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGo>;
+        kgc:where ?x.
+    } THEN {         
+	?o kgc:hasProperty kd:wasNotAtTheScene1.
+    }
+""".
+
+# ラウンドヘイはトリジェニス家にいない Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGo>;
+        kgc:where ?x.
+    } THEN {         
+	?o kgc:wasNotIn ?x.
+    }
+""".
+
+# 部外者はトリジェニス家にいない
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o1;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGoOut>.
+    ?id2 kgc:subject ?o2;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/cannotMake>.
+    # filter(?o1 = ?o2)
+    } THEN {
+    ?o1 kgc:hasProperty kd:wasNotAtTheScene1;
+        kgc:hasProperty kd:wasNotAtTheScene2.
+    }
+""".
+
+# 部外者はトリジェニス家にいない Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o1;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGoOut>.
+    ?id2 kgc:subject ?o2;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/cannotMake>.
+    # filter(?o1 = ?o2)
+    } THEN {         
+	?o1 kgc:wasNotIn kd:House_of_Trigenis;
+        kgc:wasNotIn kd:pastoral_hall.
+    }
+""".
+
+# モーティマーは牧師館にいる
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>;
+        kgc:when kd:Last_night.
+    } THEN {         
+	?o kgc:hasProperty kd:wasAtTheScene2.
+    }
+""".
+
+# モーティマーは牧師館にいる Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:subject ?o;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>;
+        kgc:when kd:Last_night.
+    } THEN {         
+	?o kgc:wasIn kd:pastoral_hall.
+    }
+""".
+
+# スタンデールは牧師館にいる
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    kd:393 kgc:subject ?o;
+           kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/go>;
+           kgc:to kd:pastoral_hall.
+    } THEN {         
+	?o kgc:hasProperty kd:wasAtTheScene2.
+    }
+""".
+
+# スタンデールは牧師館にいる Part.2
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/DevilsFoot/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    kd:393 kgc:subject ?o;
+           kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/go>;
+           kgc:to ?x.
+    } THEN {         
+	?o kgc:wasIn ?x.
+    }
+""".
