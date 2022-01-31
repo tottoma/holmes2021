@@ -13,7 +13,7 @@ kd:India kgc:have kd:snake ;##########消す
   kgc:have kd:elephant .
 
 # 蛇
-kd:snake a kgc:animal ;
+kd:snake a kgc:Animal ;
   kgc:isFrom kd:India;
 # 蛇の模様はまだら
   kgc:hasProperty kd:speckled; #まだら
@@ -33,12 +33,12 @@ kd:snake a kgc:animal ;
 #   kgc:hasProperty kd:poisonous .
 
 # サル
-kd:baboon a kgc:animal ;
+kd:baboon a kgc:Animal ;
   kgc:isFrom kd:India;
   kgc:hasProperty kd:no_poisonous.
 
 # ゾウ
-kd:elephant a kgc:animal ;
+kd:elephant a kgc:Animal ;
   kgc:isFrom kd:India;
   kgc:hasProperty kd:no_poisonous.
 
