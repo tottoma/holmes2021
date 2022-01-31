@@ -42,7 +42,6 @@ IF {
 
     } THEN { 
       ?o kgc:haveMotivation kd:cooperation .
-        ## kgc:cooperateWith kd:Roylott .
         }
 """. 
 
