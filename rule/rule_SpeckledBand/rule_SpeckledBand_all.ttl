@@ -1,6 +1,6 @@
 PREFIX rule: <tag:stardog:api:rule:> 
 
-### dangerous
+### dangerous #########
 # ロイロットはヘレンをいじめる
 [] a rule:SPARQLRule ; 
 rule:content """ 
@@ -42,7 +42,7 @@ IF {
         } 
 """. 
 
-### chance
+### chance #########
 [] a rule:SPARQLRule ;
 rule:content """
 PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
@@ -61,7 +61,7 @@ IF {
         }
 """. 
 
-### motivation
+### motivation #########
 
 ## roylottMotivationMoney
 ## rule.1022 ロイロットは金欲(遺産)を動機として殺人を犯す可能性がある
@@ -103,7 +103,7 @@ IF {
    kd:Roylott kgc:haveMotivation kd:money .
 
     } THEN { 
-      ?o kgc:haveMotivation kd:cooperation_with_Roylott. ##kd:cooperation
+      ?o kgc:haveMotivation kd:cooperation .
         ## kgc:cooperateWith kd:Roylott .
         }
 """. 
@@ -128,7 +128,7 @@ IF {
 	?o kgc:haveMotivation kd:money .
         }
 """. 
-## method
+### method #########
 ######################### 密室条件 #########################
 [] a rule:SPARQLRule ;
 rule:content """ 
@@ -530,7 +530,7 @@ IF {
    ?s kgc:canMurder ?j.
    } 
 """.
-
+### message #########
  #ダイイングメッセージはspeckled_band
 [] a rule:SPARQLRule ; 
 rule:content """ 
@@ -550,12 +550,7 @@ IF {
     } THEN { 
     # ダイングメッセージはspeckled_band
     kd:dying_message kgc:is kd:speckled_band.
-    # speckled_bandはband
-    # kd:speckled_band kgc:hasProperty kd:band.
-    # speckled_bandはspeckled
-    kd:speckled_band kgc:hasProperty kd:speckled.#;
-    #  kgc:what kd:band .
-    ##kd:speckled_band kgc:hasProperty kd:** が2文あると動かないなぜ
+    kd:speckled_band kgc:hasProperty kd:speckled.
         } 
 """. 
 # ロマはダイイングメッセージに関係している
@@ -594,14 +589,12 @@ PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     # 蛇はbandとspeckledの特徴を持つ
-    # 蛇は?aと?bの特徴を持つ
-    kd:snake kgc:hasProperty ?a. #;
-     #   kgc:hasProperty ?b.
+    # 蛇は?aという特徴を持つ
+    kd:snake kgc:hasProperty ?a.
     # ダイイングメッセージはspeckled_bandで，speckled_bandはbandとspeckledの特徴を持つ
     # ダイイングメッセージは?xで，?xは?aと?bの特徴を持つ
     kd:dying_message kgc:is ?x.
-    ?x kgc:hasProperty ?a .#;
-    #    kgc:what ?b.
+    ?x kgc:hasProperty ?a .
     } THEN { 
     # まだらの紐は蛇である可能性がある
     # ダイイングメッセージ?xは蛇である可能性がある
