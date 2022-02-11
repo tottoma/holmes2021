@@ -1,0 +1,67 @@
+## 小説ルール 殺害動機
+PREFIX rule: <tag:stardog:api:rule:> 
+
+## roylottMotivationMoney
+## rule.1022 ロイロットは金欲(遺産)を動機として殺人を犯す可能性がある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?s kgc:subject ?o ;
+       kgc:when kd:if_Helen_and_Julia_married ;
+       kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose> ;
+       kgc:what ?m .
+    } THEN {         
+	?o kgc:haveMotivation ?m.
+        }
+""". 
+
+## romaMotivationMoney
+## rule.1001 ロマはロイロットへの協力を動機として殺人を犯す可能性がある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+   kd:25 kgc:subject ?o ;
+       kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo> ;
+       kgc:whom kd:friend_of_Roylott .
+   kd:friend_of_Roylott kgc:partOf kd:friend ;
+       kgc:wholeOf kd:Roylott . 
+   ##
+   kd:Roylott kgc:haveMotivation kd:money .
+
+    } THEN { 
+      ?o kgc:haveMotivation kd:cooperation .
+        }
+""". 
+
+## HelenMotivationMoney
+## rule.1022x ヘレンは遺産を動機として殺人を犯す可能性がある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ## ロイロットの動機
+    ## ヘレンはロイロットとジュリアを家族にもつ
+    kd:Roylott kgc:haveMotivation kd:money ;   
+               kgc:family ?o .
+    filter(?o != kd:Julia)
+    } THEN {         
+	?o kgc:haveMotivation kd:money .
+        }
+""". 

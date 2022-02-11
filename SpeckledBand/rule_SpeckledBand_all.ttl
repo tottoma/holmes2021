@@ -1,0 +1,631 @@
+PREFIX rule: <tag:stardog:api:rule:> 
+
+### dangerous
+# ロイロットはヘレンをいじめる
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject ?c;
+        kgc:what kd:bruise_of_fingers_of_Roylott;
+        kgc:where kd:wrist_of_Helen;
+        kgc:why ?id2.
+    ?id2 kgc:subject ?x.
+    } THEN {         
+	?x kgc:bully ?c.
+        } 
+""".
+
+# ロイロットは危険人物である
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?x kgc:bully kd:Helen.
+    kd:21 kgc:subject kd:Roylott;
+          kgc:when kd:occasionally.
+    kd:22 kgc:hasProperty kd:angry;
+          kgc:subject kd:Roylott;
+          kgc:when kd:occasionally.
+    } THEN {         
+	?x kgc:hasProperty kd:dangerous.
+        } 
+""". 
+
+### chance
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+   ?s kgc:when kd:death_day_of_Julia ;
+     kgc:subject ?o ;
+     kgc:where ?o2 . 
+   ?o rdf:type kgc:Person.
+    } THEN {         
+	?o kgc:hasPredicate kd:wasAtTheScene .
+        }
+""". 
+
+### motivation
+
+## roylottMotivationMoney
+## rule.1022 ロイロットは金欲(遺産)を動機として殺人を犯す可能性がある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?s kgc:subject ?o ;
+       kgc:when kd:if_Helen_and_Julia_married ;
+       kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/lose> ;
+       kgc:what ?m .
+    } THEN {         
+	?o kgc:haveMotivation ?m.
+        }
+""". 
+
+## romaMotivationMoney
+## rule.1001 ロマはロイロットへの協力を動機として殺人を犯す可能性がある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+   kd:25 kgc:subject ?o ;
+       kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/equalTo> ;
+       kgc:whom kd:friend_of_Roylott .
+   kd:friend_of_Roylott kgc:partOf kd:friend ;
+       kgc:wholeOf kd:Roylott . 
+   kd:Roylott kgc:haveMotivation kd:money .
+
+    } THEN { 
+      ?o kgc:haveMotivation kd:cooperation. 
+        }
+""". 
+
+## HelenMotivationMoney
+## rule.1022x ヘレンは遺産を動機として殺人を犯す可能性がある
+[] a rule:SPARQLRule ;
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ## ロイロットの動機
+    ## ヘレンはロイロットとジュリアを家族にもつ
+    kd:Roylott kgc:haveMotivation kd:money ;   
+               kgc:family ?o .
+    filter(?o != kd:Julia)
+    } THEN {         
+	?o kgc:haveMotivation kd:money .
+        }
+""". 
+## method
+######################### 密室条件 #########################
+[] a rule:SPARQLRule ;
+rule:content """ 
+PREFIX df: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    kd:102 kgc:subject kd:four_nails;
+	   kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/exist>;
+	   kgc:where ?x;
+	   kgc:how kd:horizontally;
+	   rdf:type kgc:Situation.
+    ?c rdf:type kgc:Person.
+    } THEN { 
+        ?c kgc:cannotEnter kd:bedroom_of_Julia;
+                  kgc:from ?x.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    kd:T186 kgc:subject kd:man;
+	    kgc:where kd:bedroom_of_Julia;
+	    kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/cannotGo>;
+	    kgc:from ?x;
+	    rdf:type kgc:Situation.
+    ?c rdf:type kgc:Person.
+    } THEN { 
+        ?c kgc:cannotEnter kd:bedroom_of_Julia;
+                  kgc:from ?x.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    kd:100 kgc:subject ?x;
+           kgc:adjunct kd:tightly;
+           kgc:hasProperty kd:hard;
+           rdf:type kgc:Situation.
+    ?c rdf:type kgc:Person.
+    } THEN { 
+        ?c kgc:cannotEnter kd:bedroom_of_Julia;
+                  kgc:from ?x.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject ?x;
+        rdf:type kgc:Talk;
+        kgc:hasProperty kd:lock;
+        kgc:how kd:bedroom_of_Julia;
+        kgc:infoSource kd:Helen;
+        kgc:infoReceiver kd:coroner;
+        kgc:when kd:death_day_of_Julia.
+    ?c rdf:type kgc:Person.
+    } THEN { 
+        ?c kgc:cannotEnter kd:bedroom_of_Julia;
+                  kgc:from ?x.
+        }
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject kd:man;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/cannotOpen>;
+        kgc:where ?x;
+        rdf:type kgc:Situation.
+    ?c rdf:type kgc:Person.
+    } THEN { 
+        ?c kgc:cannotEnter kd:bedroom_of_Julia;
+                  kgc:from ?x.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    kd:98 kgc:adjunct kd:tightly;
+          kgc:subject ?x;
+          kgc:hasProperty kd:hard;
+          rdf:type kgc:Situation.
+    ?c rdf:type kgc:Person.
+    } THEN { 
+        ?c kgc:cannotEnter kd:bedroom_of_Julia;
+                  kgc:from ?x.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?c kgc:cannotEnter ?x;
+       kgc:from kd:door_of_bedroom_of_Julia;
+       kgc:from kd:wall;
+       kgc:from kd:shutter;
+       kgc:from kd:kd:floor_of_bedroom_of_Julia;
+       kgc:from kd:chimney_of_bedroom_of_Julia;
+       kgc:from kd:corridor.
+    } THEN {
+        ?c kgc:cannotEnter ?x.
+        } 
+""". 
+
+##### rightuse ##############################
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject ?c;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notWork>;
+        kgc:why kd:216 .
+        #kgc:then ?id2.
+    kd:218 kgc:infoSource kd:Holmes;
+         kgc:hasProperty kd:strange;
+         kgc:subject kd:rope_of_bell.
+   } THEN { 
+    ?c kgc:isnot kd:rightuse.
+   } 
+""".
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+IF { 
+    ?id1 kgc:subject ?c1;
+           kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/go>;
+           kgc:to kd:bedroom_of_Roylott .
+
+    kd:222 kgc:from kd:bedroom_of_Julia;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notGo>;
+         kgc:subject ?c2;
+         kgc:to kd:garden_of_mansion .
+    filter(?c1 = ?c2)
+   } THEN {
+    ?c1 kgc:isnot kd:rightuse.
+   } 
+""". 
+
+
+##### sameOppose ###################
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+   ?x1 kgc:isnot kd:rightuse.
+   ?x2 kgc:isnot kd:rightuse.
+   kd:225 kgc:subject kd:ventilator;
+          kgc:when kd:at_the_same_time_as_rope_of_bell_put.
+   filter(?x1!=?x2)
+   } THEN { 
+    ?x1 kgc:sameOppose ?x2.
+   } 
+""". 
+
+##### Julia die no_ #############
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject kd:coroner;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notFind>;
+        kgc:what kd:poison;
+        kgc:where ?c.
+   } THEN { 
+    kd:Julia kgc:die kd:no_poisonous.
+   } 
+""".
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    ?id kgc:subject ?c;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notHave>;
+        kgc:what kd:scar;
+        kgc:where kd:body_of_Julia.
+   } THEN { 
+    ?c kgc:die kd:noScar.
+   } 
+""". 
+
+##### snake ########################
+
+[] a rule:SPARQLRule ;
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?c kgc:die kd:noScar ;
+       kgc:die kd:no_poisonous.
+    kd:378 kgc:subject kd:coroner;
+           kgc:what kd:poison_of_snake;
+           kgc:hasProperty kd:notFind.
+    kd:72 kgc:subject ?d;
+          kgc:hasProperty kd:turnPale;
+          kgc:then ?id2.
+    ?id2 kgc:hasProperty kd:dizzy.
+    kd:76 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/beTremble>;
+          kgc:what kd:limbs.
+    kd:86 kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/die>.
+    filter(?c = ?d)
+   } THEN {
+    ?c kgc:die kd:poisoning.
+   } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+IF { 
+    # ?aはインドの動物が好き
+    kd:27 kgc:subject ?a;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/like>;
+        kgc:what kd:animal_of_India.
+    # ?bはインドの動物を買う
+    kd:28 kgc:subject ?b;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/buy>;
+        kgc:what kd:animal_of_India.
+    filter(?a=?b).
+    } THEN { 
+    # ?aはインドの動物を飼っている
+	?a kgc:have kd:animals_in_India.
+        } 
+""".
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/>
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> 
+IF {
+    ?x kgc:isnot kd:rightuse.
+    ?y kgc:hasProperty kd:band.
+    kd:384 kgc:subject kd:Roylott;
+           kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/put>;
+           kgc:to kd:ventilator;
+           kgc:what ?y;
+           kgc:then ?id2.
+    ?id2 kgc:subject ?z;
+         kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/goDown>;
+         kgc:how kd:rope_of_bell;
+         kgc:to kd:bed.
+    filter(?y = ?z)   
+   } THEN {
+    ?y kgc:canEnter kd:bedroom_of_Julia.
+   } 
+""".
+##### Roylott have snake ########################
+
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF {
+    ?id kgc:what ?a;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/train>;
+        kgc:subject ?x.
+
+    ?x kgc:have kd:animals_in_India.
+
+    kd:India kgc:have ?a.
+
+    } THEN {
+    ?x kgc:have ?a.
+    ?a kgc:isFrom kd:India.
+    } 
+""". 
+
+##### snake kill Julia ########################
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    {
+    ?c rdf:type kgc:Person;
+      kgc:cannotEnter ?o2.
+    ?x kgc:canEnter ?o;
+      kgc:hasProperty kd:poisonous.
+
+    ?y kgc:die kd:poisoning.
+    
+    ## 中毒死の凶器として薬物がある
+    kd:poisoning kgc:weapon ?x .
+
+    filter(?o = ?o2)
+    }union{
+     ?s rdf:type kgc:Person ;
+        kgc:have ?x2 .
+     ?x2 kgc:canKill ?y .  
+    }
+   } THEN { 
+       ?x kgc:canKill ?y.
+   } 
+""". 
+
+##### Roylott canMurder Julia ########################
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+   ?s rdf:type kgc:Person ;
+     kgc:have ?x .
+   ?x kgc:canKill ?j .
+   } THEN { 
+   ?s kgc:canMurder ?j.
+   } 
+""".
+
+ #ダイイングメッセージはspeckled_band
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 事件当夜，ジュリアは "speckled_band" と言った
+    ?o kgc:subject kd:Julia;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/say>;
+        kgc:what kd:speckled_band;
+        kgc:what kd:band;
+        kgc:when kd:death_day_of_Julia.
+    } THEN { 
+    # ダイングメッセージはspeckled_band
+    kd:dying_message kgc:is kd:speckled_band.
+    kd:speckled_band kgc:hasProperty kd:speckled.
+        } 
+""". 
+# ロマはダイイングメッセージに関係している
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ?xは(?bの特徴を持つ)?aを持っている
+    ?id kgc:subject ?x;
+        kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/have>;
+        kgc:what ?a.
+    ?id2 kgc:subject ?a;
+        kgc:hasProperty ?b.
+    # ダイイングメッセージは?cで，?cは?bの特徴を持つ
+    kd:dying_message kgc:is ?c.
+    ?c kgc:hasProperty ?b.
+    } THEN { 
+    # ?xはダイイングメッセージに関係している
+    ?x kgc:isRelatedTo kd:dying_message.
+        } 
+""". 
+
+# まだらの紐は蛇である可能性がある
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # 蛇はbandとspeckledの特徴を持つ
+    # 蛇は?aと?bの特徴を持つ
+    kd:snake kgc:hasProperty ?a.
+    # ダイイングメッセージはspeckled_bandで，speckled_bandはbandとspeckledの特徴を持つ
+    # ダイイングメッセージは?xで，?xは?aと?bの特徴を持つ
+    kd:dying_message kgc:is ?x.
+    ?x kgc:hasProperty ?a .
+    } THEN { 
+    # まだらの紐は蛇である可能性がある
+    # ダイイングメッセージ?xは蛇である可能性がある
+    ?x kgc:canBe kd:snake.
+        } 
+""". 
+
+# ロイロットはダイイングメッセージに関係している
+[] a rule:SPARQLRule ; 
+rule:content """ 
+PREFIX kd: <http://kgc.knowledge-graph.jp/data/SpeckledBand/> 
+PREFIX kgc: <http://kgc.knowledge-graph.jp/ontology/kgc.owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl/#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+IF { 
+    # ロイロットは蛇を飼っている
+    # ?xは?aを飼っている
+    ?x kgc:have ?a;
+        rdf:type kgc:Person.
+    # ダイイングメッセージはまだらの紐である
+    # ダイイングメッセージは?bである
+    kd:dying_message kgc:is ?b.
+    # まだらの紐は蛇である可能性がある
+    # ?bは?aである可能性がある
+    ?b kgc:canBe ?a.
+
+    } THEN { 
+    # ロイロットはダイイングメッセージに関係している
+    # ?xはダイイングメッセージに関係している
+    ?x kgc:isRelatedTo kd:dying_message.
+        } 
+""". 
