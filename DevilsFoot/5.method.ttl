@@ -426,7 +426,7 @@ PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
     {
     # ブレンダの死因は中毒死である
-    kd:Brenda kgc:die kd:poisoning.
+    # kd:Brenda kgc:die kd:poisoning.
     # モーティマーは魔足根を持っている
     ?y kgc:have ?a.
     }union{
