@@ -99,8 +99,3 @@ filter(?s != ?s2)
 ?s2 kgc:sibling ?s.
 }
 """.
-
-################################### Speckled Band
-kd:Helen kgc:parent kd:Roylott .
-kd:Julia kgc:parent kd:Roylott .
-################################### 
