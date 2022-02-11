@@ -210,7 +210,7 @@ IF {
     ?id kgc:hasPredicate <http://kgc.knowledge-graph.jp/data/predicate/notBeViolated>;
         kgc:subject ?x.
     } THEN { 
-    ?x kgc:die kd:noScar.
+    ?x kgc:hasProperty kd:noScar.
     } 
 """. 
 
@@ -227,8 +227,7 @@ IF {
     # ブレンダは薬物を摂取した
     kd:Brenda kgc:take kd:Drug.
     # ブレンダは外傷のない死因である
-    # ?x2 kgc:die kd:noScar.
-    # filter(?x1 = ?x2)
+    kd:Brenda kgc:hasProperty kd:noScar.
     } THEN { 
     kd:Brenda kgc:die kd:poisoning.
     } 
@@ -425,15 +424,18 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX owl: <http://www.w3.org/2002/07/owl/#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 IF { 
+    {
     # ブレンダの死因は中毒死である
-    # kd:Brenda kgc:die kd:poisoning.
+    kd:Brenda kgc:die kd:poisoning.
     # モーティマーは魔足根を持っている
-    ?x kgc:have ?a1.
+    ?y kgc:have ?a.
+    }union{
+    ?y kgc:have ?a.
     # 魔足根は人を殺せる
-    ?a2 kgc:canKill kd:Human.
-    filter(?a1 = ?a2)
+    kd:Magic_foot kgc:canKill kd:Human.
+    }
     } THEN { 
-    ?x kgc:canMurder kd:Brenda.
+    ?y kgc:canMurder kd:Brenda.
     } 
 """. 
 
